@@ -5,12 +5,16 @@ import FeaturedProducts from "@/components/featured-products"
 import TopDeals from "@/components/top-deals"
 import NewArrivals from "@/components/new-arrivals"
 import PremiumBrands from "@/components/premium-brands"
+import MobileCategoryNav from "@/components/mobile-category-nav"
 
 export default function Home() {
   return (
     <div className="flex flex-col gap-6 py-4">
       {/* Promotional Carousel */}
       <PromotionalCarousel />
+
+      {/* Mobile Category Navigation - only visible on mobile */}
+      <MobileCategoryNav />
 
       {/* Customer Support Banner */}
       <CustomerSupportBanner />
