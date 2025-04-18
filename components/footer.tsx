@@ -73,7 +73,7 @@ export default function Footer() {
                   href="/terms"
                   className="text-sm text-muted-foreground hover:text-foreground dark:hover:text-white"
                 >
-                  Terms & Conditions
+                  T & C
                 </Link>
               </li>
               <li>
