@@ -13,7 +13,7 @@ const banners = [
     description: "Up to 40% off on selected items",
     buttonText: "Shop Now",
     buttonLink: "/deals",
-    image: "/placeholder.svg?height=600&width=1200&query=golf+course+summer",
+    image: "/summer-golf-green.png",
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const banners = [
     description: "Check out the latest golf equipment",
     buttonText: "Discover",
     buttonLink: "/new-arrivals",
-    image: "/placeholder.svg?height=600&width=1200&query=golf+equipment+new",
+    image: "/gleaming-golf-gear.png",
   },
   {
     id: 3,
@@ -29,7 +29,7 @@ const banners = [
     description: "Professional grade equipment for serious golfers",
     buttonText: "Explore",
     buttonLink: "/pro-shop",
-    image: "/placeholder.svg?height=600&width=1200&query=professional+golf+equipment",
+    image: "/golf-course-essentials.png",
   },
 ]
 
@@ -59,20 +59,26 @@ export default function BannerCarousel() {
       >
         {banners.map((banner) => (
           <div key={banner.id} className="min-w-full relative">
-            <div className="aspect-[21/9] md:aspect-[3/1] w-full relative">
+            <div className="aspect-[21/12] md:aspect-[21/4] w-full relative">
               <Image
-                src={banner.image || "/placeholder.svg"}
+                src={
+                  banner.image && banner.image.trim() !== ""
+                    ? banner.image
+                    : "/placeholder.svg?height=600&width=1200&query=golf+course"
+                }
                 alt={banner.title}
                 fill
                 className="object-cover"
                 priority
               />
               <div className="absolute inset-0 bg-black/30" />
-              <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white p-4">
-                <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4">{banner.title}</h2>
-                <p className="text-sm md:text-lg mb-4 md:mb-6 max-w-md">{banner.description}</p>
+              <div className="absolute inset-0 flex flex-col justify-center items-center text-center text-white p-1">
+                <h2 className="text-xl md:text-3xl font-bold mb-0.5">{banner.title}</h2>
+                <p className="text-xs md:text-base mb-1.5 max-w-md">{banner.description}</p>
                 <Link href={banner.buttonLink}>
-                  <Button className="bg-green-700 hover:bg-green-800">{banner.buttonText}</Button>
+                  <Button size="sm" className="bg-green-700 hover:bg-green-800 text-xs md:text-sm md:h-9">
+                    {banner.buttonText}
+                  </Button>
                 </Link>
               </div>
             </div>

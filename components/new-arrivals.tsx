@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
+import { formatIndianRupees, convertUSDtoINR } from "@/lib/utils"
 
 // Sample new arrivals data
 const newArrivals = [
@@ -11,7 +12,7 @@ const newArrivals = [
     id: 15,
     name: "Cobra KING Forged Tec Irons",
     price: 1099.99,
-    image: "/placeholder.svg?height=300&width=300&query=cobra+forged+irons",
+    image: "/cobra-forged-irons-closeup.png",
     link: "/product/15",
     category: "Clubs",
     isNew: true,
@@ -20,7 +21,7 @@ const newArrivals = [
     id: 16,
     name: "Mizuno JPX921 Forged Irons",
     price: 1199.99,
-    image: "/placeholder.svg?height=300&width=300&query=mizuno+jpx921+irons",
+    image: "/mizuno-jpx921-irons-display.png",
     link: "/product/16",
     category: "Clubs",
     isNew: true,
@@ -29,7 +30,7 @@ const newArrivals = [
     id: 17,
     name: "ECCO BIOM H4 Golf Shoes",
     price: 179.99,
-    image: "/placeholder.svg?height=300&width=300&query=ecco+golf+shoes",
+    image: "/stylish-golfer-swing.png",
     link: "/product/17",
     category: "Shoes",
     isNew: true,
@@ -38,7 +39,7 @@ const newArrivals = [
     id: 19,
     name: "Callaway Apex Pro Irons",
     price: 1299.99,
-    image: "/placeholder.svg?height=300&width=300&query=callaway+apex+pro+irons",
+    image: "/apex-pro-irons-closeup.png",
     link: "/product/19",
     category: "Clubs",
     isNew: true,
@@ -77,7 +78,11 @@ export default function NewArrivals() {
               <CardContent className="p-0">
                 <div className="aspect-square relative">
                   <Image
-                    src={product.image || "/placeholder.svg"}
+                    src={
+                      product.image && product.image.trim() !== ""
+                        ? product.image
+                        : "/placeholder.svg?height=300&width=300&query=new+golf+equipment"
+                    }
                     alt={product.name}
                     fill
                     className="object-cover p-4"
@@ -87,7 +92,9 @@ export default function NewArrivals() {
                 <div className="p-4">
                   <div className="text-xs text-muted-foreground mb-1">{product.category}</div>
                   <h3 className="font-medium line-clamp-2 h-10 text-sm">{product.name}</h3>
-                  <p className="font-bold text-green-700 dark:text-green-500 mt-2">${product.price.toFixed(2)}</p>
+                  <p className="font-bold text-green-700 dark:text-green-500 mt-2">
+                    {formatIndianRupees(convertUSDtoINR(product.price))}
+                  </p>
                 </div>
               </CardContent>
             </Card>

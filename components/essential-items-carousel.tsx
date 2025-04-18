@@ -6,6 +6,7 @@ import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { formatIndianRupees, convertUSDtoINR } from "@/lib/utils"
 
 // Sample essential items data
 const essentialItems = [
@@ -118,11 +119,22 @@ export default function EssentialItemsCarousel() {
               <Card className="overflow-hidden h-full transition-all hover:shadow-md dark:bg-gray-800 dark:border-gray-700 border-2 hover:border-green-500 dark:hover:border-green-600">
                 <CardContent className="p-0">
                   <div className="aspect-square relative">
-                    <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover p-4" />
+                    <Image
+                      src={
+                        item.image && item.image.trim() !== ""
+                          ? item.image
+                          : "/placeholder.svg?height=300&width=300&query=golf+equipment"
+                      }
+                      alt={item.name}
+                      fill
+                      className="object-cover p-4"
+                    />
                   </div>
                   <div className="p-4">
                     <h3 className="font-medium text-sm line-clamp-2 h-10">{item.name}</h3>
-                    <p className="font-bold text-green-700 dark:text-green-500 mt-2">${item.price.toFixed(2)}</p>
+                    <p className="font-bold text-green-700 dark:text-green-500 mt-2">
+                      {formatIndianRupees(convertUSDtoINR(item.price))}
+                    </p>
                   </div>
                 </CardContent>
               </Card>

@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { cn } from "@/lib/utils"
+import { formatIndianRupees, convertUSDtoINR } from "@/lib/utils"
 
 // Sample promotional products data
 const promotionalProducts = [
@@ -64,7 +65,7 @@ export default function PromotionalCarousel() {
   }, [])
 
   return (
-    <div className="flex justify-center py-12">
+    <div className="flex justify-center py-4">
       <div className="w-[80%] relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-800 via-green-600 to-teal-700 dark:from-emerald-900 dark:via-green-800 dark:to-teal-800 shadow-xl">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent_40%)]"></div>
@@ -78,11 +79,11 @@ export default function PromotionalCarousel() {
         >
           {promotionalProducts.map((product) => (
             <div key={product.id} className="min-w-full relative">
-              <div className="py-16 md:py-24 px-8 md:px-12 min-w-full">
+              <div className="py-10 md:py-16 px-6 md:px-10 min-w-full">
                 <div className="w-full">
                   <div className="grid md:grid-cols-2 gap-8 items-center">
                     <div className="order-2 md:order-1">
-                      <div className="space-y-4">
+                      <div className="space-y-3">
                         <div className="flex gap-2">
                           <Badge className="bg-red-500 dark:bg-red-600 text-white px-3 py-1 text-xs font-bold uppercase">
                             {product.discount}% Off
@@ -91,19 +92,21 @@ export default function PromotionalCarousel() {
                             {product.badge}
                           </Badge>
                         </div>
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white">
+                        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight text-white">
                           {product.name}
                         </h2>
-                        <p className="text-gray-200 dark:text-gray-300 text-lg max-w-md">{product.description}</p>
+                        <p className="text-gray-200 dark:text-gray-300 text-base md:text-lg max-w-md">
+                          {product.description}
+                        </p>
                         <div className="flex items-baseline gap-3">
-                          <span className="text-3xl md:text-4xl font-bold text-green-400 dark:text-green-300">
-                            ${product.salePrice.toFixed(2)}
+                          <span className="text-2xl md:text-3xl font-bold text-green-400 dark:text-green-300">
+                            {formatIndianRupees(convertUSDtoINR(product.salePrice))}
                           </span>
                           <span className="text-xl text-gray-400 line-through">
-                            ${product.originalPrice.toFixed(2)}
+                            {formatIndianRupees(convertUSDtoINR(product.originalPrice))}
                           </span>
                         </div>
-                        <div className="pt-4">
+                        <div className="pt-3">
                           <Link href={product.link}>
                             <Button
                               size="lg"
@@ -116,10 +119,14 @@ export default function PromotionalCarousel() {
                       </div>
                     </div>
                     <div className="order-1 md:order-2 relative">
-                      <div className="aspect-square relative max-w-md mx-auto">
+                      <div className="aspect-[1/1] md:aspect-[4/3] relative max-w-sm mx-auto">
                         <div className="absolute inset-0 bg-white/10 dark:bg-white/5 rounded-full -m-6 backdrop-blur-sm"></div>
                         <Image
-                          src={product.image || "/placeholder.svg"}
+                          src={
+                            product.image && product.image.trim() !== ""
+                              ? product.image
+                              : "/placeholder.svg?height=600&width=600&query=golf+equipment"
+                          }
                           alt={product.name}
                           fill
                           className="object-contain p-6"

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Heart, Minus, Plus, ShoppingCart, Star } from "lucide-react"
 import ProductImageCarousel from "@/components/product-image-carousel"
 import RelatedProducts from "@/components/related-products"
+import { formatIndianRupees, convertUSDtoINR } from "@/lib/utils"
 
 // Update the sample product data to include all products referenced elsewhere in the app
 const products = [
@@ -65,12 +66,7 @@ const products = [
       Color: "White",
       Quantity: "12 balls per box",
     },
-    images: [
-      "/golf-ball-box.png",
-      "/single-prov1.png",
-      "/golf-ball-display.png",
-      "/titleist-prov1-detail.png",
-    ],
+    images: ["/golf-ball-box.png", "/single-prov1.png", "/golf-ball-display.png", "/titleist-prov1-detail.png"],
     rating: 4.9,
     reviewCount: 342,
     stock: 50,
@@ -102,8 +98,8 @@ const products = [
     images: [
       "/footjoy-pro-sl-side-view.png",
       "/footjoy-pro-sl-top-view.png",
-      "/placeholder.svg?height=600&width=600&query=footjoy+pro+sl+golf+shoes+sole",
-      "/placeholder.svg?height=600&width=600&query=footjoy+pro+sl+golf+shoes+back",
+      "/footjoy-pro-sl-sole-detail.png",
+      "/footjoy-pro-sl-back-view.png",
     ],
     rating: 4.7,
     reviewCount: 215,
@@ -134,9 +130,9 @@ const products = [
       "Loft (7-iron)": "30°",
     },
     images: [
-      "/placeholder.svg?height=600&width=600&query=callaway+rogue+st+max+irons+set",
-      "/placeholder.svg?height=600&width=600&query=callaway+rogue+st+max+irons+single",
-      "/placeholder.svg?height=600&width=600&query=callaway+rogue+st+max+irons+address",
+      "/callaway-rogue-st-max-irons.png",
+      "/callaway-rogue-st-max-single-iron.png",
+      "/rogue-st-max-address.png",
       "/placeholder.svg?height=600&width=600&query=callaway+rogue+st+max+irons+back",
     ],
     rating: 4.8,
@@ -365,6 +361,10 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
   const discount = product.dealPrice ? Math.round(((product.price - product.dealPrice) / product.price) * 100) : 0
 
+  // Convert prices to INR
+  const priceInINR = convertUSDtoINR(product.price)
+  const dealPriceInINR = product.dealPrice ? convertUSDtoINR(product.dealPrice) : undefined
+
   return (
     <div className="container py-8">
       <div className="grid md:grid-cols-2 gap-8 mb-12">
@@ -392,11 +392,11 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
           <div className="flex items-center gap-3 mb-6">
             <span className="text-3xl font-bold text-green-700">
-              ${product.dealPrice?.toFixed(2) || product.price.toFixed(2)}
+              {formatIndianRupees(dealPriceInINR || priceInINR)}
             </span>
-            {product.dealPrice && (
+            {dealPriceInINR && (
               <>
-                <span className="text-lg text-muted-foreground line-through">${product.price.toFixed(2)}</span>
+                <span className="text-lg text-muted-foreground line-through">{formatIndianRupees(priceInINR)}</span>
                 <span className="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">
                   Save {discount}%
                 </span>

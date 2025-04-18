@@ -16,6 +16,7 @@ import { useClickOutside } from "@/hooks/use-click-outside"
 import { productData } from "@/lib/product-data"
 import UserAccountNav from "@/components/user-account-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { formatIndianRupees, convertUSDtoINR } from "@/lib/utils"
 
 const categories = [
   { name: "Balls", href: "/category/balls" },
@@ -112,7 +113,7 @@ export default function Header() {
       {/* Top bar with contact info and account */}
       <div className="bg-black text-white py-1.5 text-xs">
         <div className="container flex justify-between items-center">
-          <div>Free shipping on orders over $100</div>
+          <div>Free shipping on orders over ₹8,000</div>
           <div className="flex items-center gap-4">
             <Link href="/contact" className="hover:text-green-300 transition-colors">
               Contact Us
@@ -192,7 +193,11 @@ export default function Header() {
                         >
                           <div className="relative h-12 w-12 rounded-md overflow-hidden flex-shrink-0">
                             <Image
-                              src={product.image || "/placeholder.svg"}
+                              src={
+                                product.image && product.image.trim() !== ""
+                                  ? product.image
+                                  : "/placeholder.svg?height=100&width=100&query=golf+product"
+                              }
                               alt={product.name}
                               fill
                               className="object-cover"
@@ -206,7 +211,7 @@ export default function Header() {
                           </div>
                           <div className="ml-3 flex-shrink-0">
                             <p className="text-sm font-medium text-green-700">
-                              ${product.dealPrice?.toFixed(2) || product.price.toFixed(2)}
+                              {formatIndianRupees(convertUSDtoINR(product.dealPrice || product.price))}
                             </p>
                           </div>
                         </div>
@@ -330,7 +335,11 @@ export default function Header() {
                               >
                                 <div className="relative h-10 w-10 rounded-md overflow-hidden flex-shrink-0">
                                   <Image
-                                    src={product.image || "/placeholder.svg"}
+                                    src={
+                                      product.image && product.image.trim() !== ""
+                                        ? product.image
+                                        : "/placeholder.svg?height=100&width=100&query=golf+product"
+                                    }
                                     alt={product.name}
                                     fill
                                     className="object-cover"
@@ -338,7 +347,9 @@ export default function Header() {
                                 </div>
                                 <div className="ml-3 flex-1 min-w-0">
                                   <p className="text-sm font-medium text-gray-900 truncate">{product.name}</p>
-                                  <p className="text-xs text-gray-500">${product.dealPrice || product.price}</p>
+                                  <p className="text-xs text-gray-500">
+                                    {formatIndianRupees(convertUSDtoINR(product.dealPrice || product.price))}
+                                  </p>
                                 </div>
                               </div>
                             ))}

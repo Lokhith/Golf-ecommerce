@@ -4,10 +4,11 @@ import CustomerSupportBanner from "@/components/customer-support-banner"
 import FeaturedProducts from "@/components/featured-products"
 import TopDeals from "@/components/top-deals"
 import NewArrivals from "@/components/new-arrivals"
+import PremiumBrands from "@/components/premium-brands"
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-12 py-6">
+    <div className="flex flex-col gap-6 py-4">
       {/* Promotional Carousel */}
       <PromotionalCarousel />
 
@@ -33,6 +34,9 @@ export default function Home() {
       <section className="container">
         <NewArrivals />
       </section>
+
+      {/* Premium Brands */}
+      <PremiumBrands />
     </div>
   )
 }

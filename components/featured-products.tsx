@@ -3,6 +3,7 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { ArrowRight } from "lucide-react"
+import { formatIndianRupees, convertUSDtoINR } from "@/lib/utils"
 
 // Sample featured products data
 const featuredProducts = [
@@ -80,7 +81,11 @@ export default function FeaturedProducts() {
                 <div className="aspect-square relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-b from-black/0 to-black/60 z-10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   <Image
-                    src={product.image || "/placeholder.svg"}
+                    src={
+                      product.image && product.image.trim() !== ""
+                        ? product.image
+                        : "/placeholder.svg?height=400&width=400&query=golf+equipment"
+                    }
                     alt={product.name}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -94,7 +99,7 @@ export default function FeaturedProducts() {
                 <div className="p-4">
                   <div className="text-sm text-green-700 dark:text-green-500 font-medium mb-1">{product.category}</div>
                   <h3 className="font-medium text-lg">{product.name}</h3>
-                  <p className="font-bold text-lg mt-2">${product.price.toFixed(2)}</p>
+                  <p className="font-bold text-lg mt-2">{formatIndianRupees(convertUSDtoINR(product.price))}</p>
                 </div>
               </CardContent>
             </Card>

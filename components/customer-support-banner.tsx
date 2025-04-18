@@ -3,18 +3,18 @@ import { Button } from "@/components/ui/button"
 
 export default function CustomerSupportBanner() {
   return (
-    <section className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-950/30 dark:to-teal-950/30 py-10 md:py-14">
+    <section className="bg-gradient-to-r from-green-50 to-teal-50 dark:from-green-950/30 dark:to-teal-950/30 py-6 md:py-10">
       <div className="container">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="flex justify-center mb-6">
+          <div className="flex justify-center mb-4">
             <div className="bg-white dark:bg-gray-800 p-4 rounded-full shadow-md">
               <MessageCircle className="h-8 w-8 text-green-600 dark:text-green-400" />
             </div>
           </div>
-          <h2 className="text-2xl md:text-3xl font-bold mb-4 text-gray-800 dark:text-gray-100">
+          <h2 className="text-2xl md:text-3xl font-bold mb-3 text-gray-800 dark:text-gray-100">
             Need Help Finding Your Perfect Golf Gear?
           </h2>
-          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-6 leading-relaxed">
             If you find it tiring to order or could not find your desired items, don't worry! We can sort it out and
             find your best match.
           </p>

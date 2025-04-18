@@ -7,6 +7,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { formatIndianRupees, convertUSDtoINR } from "@/lib/utils"
 
 // Sample top deals data
 const topDeals = [
@@ -86,7 +87,7 @@ const topDeals = [
     originalPrice: 65.0,
     salePrice: 59.99,
     discount: 8,
-    image: "/placeholder.svg?height=300&width=300&query=under+armour+golf+polo",
+    image: "/golfer-swing-polo.png",
     link: "/product/14",
     badge: "Limited Stock",
   },
@@ -143,7 +144,16 @@ export default function TopDeals() {
               <Card className="overflow-hidden h-full transition-all hover:shadow-md dark:bg-gray-800 dark:border-gray-700">
                 <CardContent className="p-0">
                   <div className="aspect-square relative">
-                    <Image src={deal.image || "/placeholder.svg"} alt={deal.name} fill className="object-cover p-4" />
+                    <Image
+                      src={
+                        deal.image && deal.image.trim() !== ""
+                          ? deal.image
+                          : "/placeholder.svg?height=300&width=300&query=golf+equipment+sale"
+                      }
+                      alt={deal.name}
+                      fill
+                      className="object-cover p-4"
+                    />
                     <div className="absolute top-2 left-2 flex flex-col gap-2">
                       <Badge className="bg-red-500 dark:bg-red-600 text-white px-2 py-1">{deal.discount}% OFF</Badge>
                       <Badge className="bg-amber-500 dark:bg-amber-600 text-white px-2 py-1">{deal.badge}</Badge>
@@ -152,9 +162,11 @@ export default function TopDeals() {
                   <div className="p-4">
                     <h3 className="font-medium line-clamp-2 h-12">{deal.name}</h3>
                     <div className="flex items-baseline gap-2 mt-2">
-                      <span className="font-bold text-green-700 dark:text-green-500">${deal.salePrice.toFixed(2)}</span>
+                      <span className="font-bold text-green-700 dark:text-green-500">
+                        {formatIndianRupees(convertUSDtoINR(deal.salePrice))}
+                      </span>
                       <span className="text-sm text-muted-foreground line-through">
-                        ${deal.originalPrice.toFixed(2)}
+                        {formatIndianRupees(convertUSDtoINR(deal.originalPrice))}
                       </span>
                     </div>
                     <Button className="w-full mt-3 bg-green-700 hover:bg-green-800 dark:bg-green-600 dark:hover:bg-green-700">

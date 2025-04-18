@@ -4,6 +4,7 @@ import { ShoppingCart } from "lucide-react"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { formatIndianRupees, convertUSDtoINR } from "@/lib/utils"
 
 interface ProductCardProps {
   product: {
@@ -19,12 +20,20 @@ interface ProductCardProps {
 export default function ProductCard({ product }: ProductCardProps) {
   const discount = product.dealPrice ? Math.round(((product.price - product.dealPrice) / product.price) * 100) : 0
 
+  // Convert prices to INR
+  const priceInINR = convertUSDtoINR(product.price)
+  const dealPriceInINR = product.dealPrice ? convertUSDtoINR(product.dealPrice) : undefined
+
   return (
     <Card className="overflow-hidden h-full transition-all hover:shadow-md dark:bg-gray-800 dark:border-gray-700">
       <Link href={`/product/${product.id}`}>
         <div className="aspect-square relative overflow-hidden">
           <Image
-            src={product.image || "/placeholder.svg"}
+            src={
+              product.image && product.image.trim() !== ""
+                ? product.image
+                : "/placeholder.svg?height=300&width=300&query=golf+product"
+            }
             alt={product.name}
             fill
             className="object-cover transition-transform hover:scale-105"
@@ -41,10 +50,10 @@ export default function ProductCard({ product }: ProductCardProps) {
         </Link>
         <div className="mt-2 flex items-center gap-2">
           <span className="font-bold text-green-700 dark:text-green-400">
-            ${product.dealPrice?.toFixed(2) || product.price.toFixed(2)}
+            {formatIndianRupees(dealPriceInINR || priceInINR)}
           </span>
-          {product.dealPrice && (
-            <span className="text-sm text-muted-foreground line-through">${product.price.toFixed(2)}</span>
+          {dealPriceInINR && (
+            <span className="text-sm text-muted-foreground line-through">{formatIndianRupees(priceInINR)}</span>
           )}
         </div>
       </CardContent>

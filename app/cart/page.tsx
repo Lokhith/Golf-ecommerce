@@ -7,6 +7,7 @@ import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
+import { formatIndianRupees, convertUSDtoINR } from "@/lib/utils"
 
 // Sample cart items
 const initialCartItems = [
@@ -50,6 +51,12 @@ export default function CartPage() {
   const shipping = subtotal > 0 ? 10.0 : 0
   const tax = subtotal * 0.07
   const total = subtotal + shipping + tax
+
+  // Convert to INR
+  const subtotalINR = convertUSDtoINR(subtotal)
+  const shippingINR = convertUSDtoINR(shipping)
+  const taxINR = convertUSDtoINR(tax)
+  const totalINR = convertUSDtoINR(total)
 
   return (
     <div className="container py-8">
@@ -115,7 +122,7 @@ export default function CartPage() {
                           </div>
                         </div>
                       </div>
-                      <div className="col-span-2 text-center">${item.price.toFixed(2)}</div>
+                      <div className="col-span-2 text-center">{formatIndianRupees(convertUSDtoINR(item.price))}</div>
                       <div className="col-span-2">
                         <div className="flex items-center justify-center border rounded-md max-w-[120px] mx-auto">
                           <Button
@@ -138,7 +145,7 @@ export default function CartPage() {
                         </div>
                       </div>
                       <div className="col-span-2 text-right font-medium">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        {formatIndianRupees(convertUSDtoINR(item.price * item.quantity))}
                       </div>
                     </div>
                   </div>
@@ -168,22 +175,22 @@ export default function CartPage() {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>{formatIndianRupees(subtotalINR)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Shipping</span>
-                  <span>${shipping.toFixed(2)}</span>
+                  <span>{formatIndianRupees(shippingINR)}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Tax</span>
-                  <span>${tax.toFixed(2)}</span>
+                  <span>{formatIndianRupees(taxINR)}</span>
                 </div>
 
                 <Separator />
 
                 <div className="flex justify-between font-semibold">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>{formatIndianRupees(totalINR)}</span>
                 </div>
               </div>
 
