@@ -104,7 +104,9 @@ export default function Header() {
     <header
       className={cn(
         "sticky top-0 z-50 w-full transition-all duration-300",
-        isScrolled ? "bg-white shadow-md" : "bg-gradient-to-r from-emerald-600 via-green-500 to-teal-500",
+        isScrolled
+          ? "bg-white dark:bg-gray-900 shadow-md"
+          : "bg-gradient-to-r from-emerald-600 via-green-500 to-teal-500 dark:from-gray-900 dark:via-gray-900 dark:to-gray-900",
       )}
     >
       {/* Top bar with contact info and account */}
@@ -132,7 +134,12 @@ export default function Header() {
                 <span className="text-2xl font-bold text-green-600">G</span>
               </div>
             </div>
-            <div className={cn("font-bold transition-colors", isScrolled ? "text-green-600" : "text-white")}>
+            <div
+              className={cn(
+                "font-bold transition-colors",
+                isScrolled ? "text-green-600 dark:text-green-500" : "text-white",
+              )}
+            >
               <span className="text-2xl">GolfGear</span>
               <span className="text-2xl font-light">Pro</span>
             </div>
@@ -428,8 +435,8 @@ export default function Header() {
                   "py-3 px-4 font-medium text-sm transition-colors relative group",
                   isScrolled
                     ? pathname === category.href
-                      ? "text-green-700"
-                      : "text-gray-700 hover:text-green-700"
+                      ? "text-green-700 dark:text-green-500"
+                      : "text-gray-700 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-500"
                     : "text-white hover:text-white",
                 )}
               >
@@ -437,7 +444,7 @@ export default function Header() {
                 <span
                   className={cn(
                     "absolute bottom-0 left-0 w-full h-0.5 transform scale-x-0 transition-transform group-hover:scale-x-100",
-                    isScrolled ? "bg-green-600" : "bg-white",
+                    isScrolled ? "bg-green-600 dark:bg-green-500" : "bg-white",
                   )}
                 ></span>
               </Link>
@@ -447,7 +454,9 @@ export default function Header() {
                 <button
                   className={cn(
                     "py-3 px-4 font-medium text-sm transition-colors flex items-center gap-1",
-                    isScrolled ? "text-gray-700 hover:text-green-700" : "text-white hover:text-white",
+                    isScrolled
+                      ? "text-gray-700 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-500"
+                      : "text-white hover:text-white",
                   )}
                 >
                   More <ChevronDown className="h-4 w-4" />

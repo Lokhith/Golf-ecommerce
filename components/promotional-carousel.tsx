@@ -64,100 +64,110 @@ export default function PromotionalCarousel() {
   }, [])
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900">
-      <div
-        className="flex transition-transform duration-700 ease-in-out"
-        style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-      >
-        {promotionalProducts.map((product) => (
-          <div key={product.id} className="min-w-full relative">
-            <div className="container py-12 md:py-16">
-              <div className="grid md:grid-cols-2 gap-8 items-center">
-                <div className="order-2 md:order-1">
-                  <div className="space-y-4">
-                    <div className="flex gap-2">
-                      <Badge className="bg-red-500 dark:bg-red-600 text-white px-3 py-1 text-xs font-bold uppercase">
-                        {product.discount}% Off
-                      </Badge>
-                      <Badge className="bg-amber-500 dark:bg-amber-600 text-white px-3 py-1 text-xs font-bold uppercase">
-                        {product.badge}
-                      </Badge>
+    <div className="flex justify-center py-12">
+      <div className="w-[80%] relative overflow-hidden rounded-2xl bg-gradient-to-r from-emerald-800 via-green-600 to-teal-700 dark:from-emerald-900 dark:via-green-800 dark:to-teal-800 shadow-xl">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.15),transparent_40%)]"></div>
+        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 bg-[radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.1),transparent_40%)]"></div>
+        <div className="absolute -left-10 top-1/4 w-40 h-40 rounded-full bg-green-500/20 blur-3xl"></div>
+        <div className="absolute -right-10 bottom-1/4 w-40 h-40 rounded-full bg-teal-500/20 blur-3xl"></div>
+
+        <div
+          className="flex transition-transform duration-700 ease-in-out relative z-10"
+          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+        >
+          {promotionalProducts.map((product) => (
+            <div key={product.id} className="min-w-full relative">
+              <div className="py-16 md:py-24 px-8 md:px-12 min-w-full">
+                <div className="w-full">
+                  <div className="grid md:grid-cols-2 gap-8 items-center">
+                    <div className="order-2 md:order-1">
+                      <div className="space-y-4">
+                        <div className="flex gap-2">
+                          <Badge className="bg-red-500 dark:bg-red-600 text-white px-3 py-1 text-xs font-bold uppercase">
+                            {product.discount}% Off
+                          </Badge>
+                          <Badge className="bg-amber-500 dark:bg-amber-600 text-white px-3 py-1 text-xs font-bold uppercase">
+                            {product.badge}
+                          </Badge>
+                        </div>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white">
+                          {product.name}
+                        </h2>
+                        <p className="text-gray-200 dark:text-gray-300 text-lg max-w-md">{product.description}</p>
+                        <div className="flex items-baseline gap-3">
+                          <span className="text-3xl md:text-4xl font-bold text-green-400 dark:text-green-300">
+                            ${product.salePrice.toFixed(2)}
+                          </span>
+                          <span className="text-xl text-gray-400 line-through">
+                            ${product.originalPrice.toFixed(2)}
+                          </span>
+                        </div>
+                        <div className="pt-4">
+                          <Link href={product.link}>
+                            <Button
+                              size="lg"
+                              className="bg-green-600 hover:bg-green-700 dark:bg-green-500 dark:hover:bg-green-600"
+                            >
+                              Shop Now
+                            </Button>
+                          </Link>
+                        </div>
+                      </div>
                     </div>
-                    <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">{product.name}</h2>
-                    <p className="text-muted-foreground text-lg max-w-md">{product.description}</p>
-                    <div className="flex items-baseline gap-3">
-                      <span className="text-3xl md:text-4xl font-bold text-green-700 dark:text-green-500">
-                        ${product.salePrice.toFixed(2)}
-                      </span>
-                      <span className="text-xl text-muted-foreground line-through">
-                        ${product.originalPrice.toFixed(2)}
-                      </span>
+                    <div className="order-1 md:order-2 relative">
+                      <div className="aspect-square relative max-w-md mx-auto">
+                        <div className="absolute inset-0 bg-white/10 dark:bg-white/5 rounded-full -m-6 backdrop-blur-sm"></div>
+                        <Image
+                          src={product.image || "/placeholder.svg"}
+                          alt={product.name}
+                          fill
+                          className="object-contain p-6"
+                          priority
+                        />
+                      </div>
                     </div>
-                    <div className="pt-4">
-                      <Link href={product.link}>
-                        <Button
-                          size="lg"
-                          className="bg-green-700 hover:bg-green-800 dark:bg-green-600 dark:hover:bg-green-700"
-                        >
-                          Shop Now
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-                <div className="order-1 md:order-2 relative">
-                  <div className="aspect-square relative max-w-md mx-auto">
-                    <div className="absolute inset-0 bg-green-600/10 dark:bg-green-500/10 rounded-full -m-6"></div>
-                    <Image
-                      src={product.image || "/placeholder.svg"}
-                      alt={product.name}
-                      fill
-                      className="object-contain p-6"
-                      priority
-                    />
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
 
-      <Button
-        variant="outline"
-        size="icon"
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800 dark:text-gray-200 rounded-full h-10 w-10 shadow-md"
-        onClick={prevSlide}
-      >
-        <ChevronLeft className="h-5 w-5" />
-        <span className="sr-only">Previous slide</span>
-      </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white dark:bg-gray-800/90 dark:hover:bg-gray-800 dark:text-gray-200 rounded-full h-10 w-10 shadow-md z-20"
+          onClick={prevSlide}
+        >
+          <ChevronLeft className="h-5 w-5" />
+          <span className="sr-only">Previous slide</span>
+        </Button>
 
-      <Button
-        variant="outline"
-        size="icon"
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white dark:bg-gray-800/80 dark:hover:bg-gray-800 dark:text-gray-200 rounded-full h-10 w-10 shadow-md"
-        onClick={nextSlide}
-      >
-        <ChevronRight className="h-5 w-5" />
-        <span className="sr-only">Next slide</span>
-      </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white dark:bg-gray-800/90 dark:hover:bg-gray-800 dark:text-gray-200 rounded-full h-10 w-10 shadow-md z-20"
+          onClick={nextSlide}
+        >
+          <ChevronRight className="h-5 w-5" />
+          <span className="sr-only">Next slide</span>
+        </Button>
 
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-        {promotionalProducts.map((_, index) => (
-          <button
-            key={index}
-            className={cn(
-              "w-2.5 h-2.5 rounded-full transition-all",
-              currentSlide === index
-                ? "bg-green-600 dark:bg-green-500 w-6"
-                : "bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500",
-            )}
-            onClick={() => setCurrentSlide(index)}
-          >
-            <span className="sr-only">Go to slide {index + 1}</span>
-          </button>
-        ))}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+          {promotionalProducts.map((_, index) => (
+            <button
+              key={index}
+              className={cn(
+                "w-2.5 h-2.5 rounded-full transition-all",
+                currentSlide === index ? "bg-white w-6" : "bg-white/40 hover:bg-white/70",
+              )}
+              onClick={() => setCurrentSlide(index)}
+            >
+              <span className="sr-only">Go to slide {index + 1}</span>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   )
