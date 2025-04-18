@@ -58,7 +58,7 @@ export default function ProductList({ products }: ProductListProps) {
       </div>
 
       {viewMode === "grid" ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -82,10 +82,12 @@ export default function ProductList({ products }: ProductListProps) {
                   <h3 className="font-medium hover:text-green-700 transition-colors">{product.name}</h3>
                   <div className="mt-2 flex items-center gap-2">
                     <span className="font-bold text-green-700">
-                      ${product.dealPrice?.toFixed(2) || product.price.toFixed(2)}
+                      ₹{Math.round((product.dealPrice || product.price) * 83).toLocaleString("en-IN")}
                     </span>
                     {product.dealPrice && (
-                      <span className="text-sm text-muted-foreground line-through">${product.price.toFixed(2)}</span>
+                      <span className="text-sm text-muted-foreground line-through">
+                        ₹{Math.round(product.price * 83).toLocaleString("en-IN")}
+                      </span>
                     )}
                   </div>
                 </div>
