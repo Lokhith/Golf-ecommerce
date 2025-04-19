@@ -17,58 +17,58 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="hover:shadow-md transition-shadow">
+        <Card className="hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:border-emerald-800">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <DollarSign className="h-4 w-4 text-green-600" />
+            <CardTitle className="text-sm font-medium dark:text-gray-200">Total Revenue</CardTitle>
+            <DollarSign className="h-4 w-4 text-green-600 dark:text-emerald-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">$45,231.89</div>
-            <div className="flex items-center text-xs text-muted-foreground mt-1">
-              <TrendingUp className="h-3 w-3 mr-1 text-green-600" />
-              <span className="text-green-600 font-medium">+20.1%</span>
+            <div className="text-2xl font-bold dark:text-white">$45,231.89</div>
+            <div className="flex items-center text-xs text-muted-foreground mt-1 dark:text-gray-400">
+              <TrendingUp className="h-3 w-3 mr-1 text-green-600 dark:text-emerald-400" />
+              <span className="text-green-600 font-medium dark:text-emerald-400">+20.1%</span>
               <span className="ml-1">from last month</span>
             </div>
           </CardContent>
         </Card>
-        <Card className="hover:shadow-md transition-shadow">
+        <Card className="hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:border-blue-800">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-sm font-medium">Products</CardTitle>
-            <Package className="h-4 w-4 text-blue-600" />
+            <CardTitle className="text-sm font-medium dark:text-gray-200">Products</CardTitle>
+            <Package className="h-4 w-4 text-blue-600 dark:text-blue-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+573</div>
-            <div className="flex items-center text-xs text-muted-foreground mt-1">
-              <ArrowUpRight className="h-3 w-3 mr-1 text-green-600" />
-              <span className="text-green-600 font-medium">+201</span>
+            <div className="text-2xl font-bold dark:text-white">+573</div>
+            <div className="flex items-center text-xs text-muted-foreground mt-1 dark:text-gray-400">
+              <ArrowUpRight className="h-3 w-3 mr-1 text-green-600 dark:text-emerald-400" />
+              <span className="text-green-600 font-medium dark:text-emerald-400">+201</span>
               <span className="ml-1">since last month</span>
             </div>
           </CardContent>
         </Card>
-        <Card className="hover:shadow-md transition-shadow">
+        <Card className="hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:border-orange-800">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-sm font-medium">Orders</CardTitle>
-            <ShoppingCart className="h-4 w-4 text-orange-600" />
+            <CardTitle className="text-sm font-medium dark:text-gray-200">Orders</CardTitle>
+            <ShoppingCart className="h-4 w-4 text-orange-600 dark:text-orange-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+2,350</div>
-            <div className="flex items-center text-xs text-muted-foreground mt-1">
-              <TrendingUp className="h-3 w-3 mr-1 text-green-600" />
-              <span className="text-green-600 font-medium">+180.1%</span>
+            <div className="text-2xl font-bold dark:text-white">+2,350</div>
+            <div className="flex items-center text-xs text-muted-foreground mt-1 dark:text-gray-400">
+              <TrendingUp className="h-3 w-3 mr-1 text-green-600 dark:text-emerald-400" />
+              <span className="text-green-600 font-medium dark:text-emerald-400">+180.1%</span>
               <span className="ml-1">from last month</span>
             </div>
           </CardContent>
         </Card>
-        <Card className="hover:shadow-md transition-shadow">
+        <Card className="hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700 dark:hover:border-purple-800">
           <CardHeader className="flex flex-row items-center justify-between pb-2 space-y-0">
-            <CardTitle className="text-sm font-medium">Customers</CardTitle>
-            <Users className="h-4 w-4 text-purple-600" />
+            <CardTitle className="text-sm font-medium dark:text-gray-200">Customers</CardTitle>
+            <Users className="h-4 w-4 text-purple-600 dark:text-purple-400" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">+12,234</div>
-            <div className="flex items-center text-xs text-muted-foreground mt-1">
-              <TrendingUp className="h-3 w-3 mr-1 text-green-600" />
-              <span className="text-green-600 font-medium">+19%</span>
+            <div className="text-2xl font-bold dark:text-white">+12,234</div>
+            <div className="flex items-center text-xs text-muted-foreground mt-1 dark:text-gray-400">
+              <TrendingUp className="h-3 w-3 mr-1 text-green-600 dark:text-emerald-400" />
+              <span className="text-green-600 font-medium dark:text-emerald-400">+19%</span>
               <span className="ml-1">from last month</span>
             </div>
           </CardContent>
@@ -76,19 +76,21 @@ export default function AdminDashboard() {
       </div>
 
       <div className="grid gap-6 md:grid-cols-7">
-        <Card className="md:col-span-4 hover:shadow-md transition-shadow">
+        <Card className="md:col-span-4 hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700">
           <CardHeader>
-            <CardTitle>Sales Overview</CardTitle>
-            <CardDescription>Monthly revenue for the current year compared to last year</CardDescription>
+            <CardTitle className="dark:text-gray-200">Sales Overview</CardTitle>
+            <CardDescription className="dark:text-gray-400">
+              Monthly revenue for the current year compared to last year
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <AdminSalesChart />
           </CardContent>
         </Card>
-        <Card className="md:col-span-3 hover:shadow-md transition-shadow">
+        <Card className="md:col-span-3 hover:shadow-md transition-shadow dark:bg-gray-800 dark:border-gray-700">
           <CardHeader>
-            <CardTitle>Recent Orders</CardTitle>
-            <CardDescription>Latest customer orders and their status</CardDescription>
+            <CardTitle className="dark:text-gray-200">Recent Orders</CardTitle>
+            <CardDescription className="dark:text-gray-400">Latest customer orders and their status</CardDescription>
           </CardHeader>
           <CardContent>
             <AdminRecentOrders />

@@ -47,7 +47,7 @@ const recentOrders = [
 export function AdminRecentOrders() {
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-5 text-xs font-medium text-muted-foreground">
+      <div className="grid grid-cols-5 text-xs font-medium text-muted-foreground dark:text-gray-400">
         <div>Order</div>
         <div>Customer</div>
         <div>Date</div>
@@ -56,35 +56,46 @@ export function AdminRecentOrders() {
       </div>
       <div className="space-y-2">
         {recentOrders.map((order) => (
-          <div key={order.id} className="grid grid-cols-5 items-center py-2 text-sm">
-            <div className="font-medium">{order.id}</div>
-            <div className="truncate">{order.customer}</div>
-            <div>{new Date(order.date).toLocaleDateString()}</div>
-            <div>${order.total.toFixed(2)}</div>
+          <div
+            key={order.id}
+            className="grid grid-cols-5 items-center py-2 text-sm border-b border-gray-100 dark:border-gray-800 last:border-0"
+          >
+            <div className="font-medium dark:text-gray-300">{order.id}</div>
+            <div className="truncate dark:text-gray-300">{order.customer}</div>
+            <div className="dark:text-gray-400">{new Date(order.date).toLocaleDateString()}</div>
+            <div className="dark:text-gray-300">${order.total.toFixed(2)}</div>
             <div className="flex items-center gap-2">
               <Badge
                 className={
                   order.status === "delivered"
-                    ? "bg-green-100 text-green-800 hover:bg-green-100"
+                    ? "bg-green-100 text-green-800 hover:bg-green-100 dark:bg-green-900/30 dark:text-green-400 dark:hover:bg-green-900/30"
                     : order.status === "shipped"
-                      ? "bg-blue-100 text-blue-800 hover:bg-blue-100"
+                      ? "bg-blue-100 text-blue-800 hover:bg-blue-100 dark:bg-blue-900/30 dark:text-blue-400 dark:hover:bg-blue-900/30"
                       : order.status === "processing"
-                        ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-100"
-                        : "bg-gray-100 text-gray-800 hover:bg-gray-100"
+                        ? "bg-yellow-100 text-yellow-800 hover:bg-yellow-100 dark:bg-yellow-900/30 dark:text-yellow-400 dark:hover:bg-yellow-900/30"
+                        : "bg-gray-100 text-gray-800 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-800"
                 }
               >
                 {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
               </Badge>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+                  >
                     <MoreHorizontal className="h-4 w-4" />
                     <span className="sr-only">Actions</span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  <DropdownMenuItem>View details</DropdownMenuItem>
-                  <DropdownMenuItem>Update status</DropdownMenuItem>
+                <DropdownMenuContent align="end" className="dark:bg-gray-800 dark:border-gray-700">
+                  <DropdownMenuItem className="dark:text-gray-300 dark:focus:bg-gray-700">
+                    View details
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="dark:text-gray-300 dark:focus:bg-gray-700">
+                    Update status
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>

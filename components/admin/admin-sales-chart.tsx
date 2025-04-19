@@ -45,6 +45,9 @@ export function AdminSalesChart() {
       // Create new chart
       const ctx = chartRef.current.getContext("2d")
       if (ctx) {
+        // Check if dark mode is active
+        const isDarkMode = document.documentElement.classList.contains("dark")
+
         chartInstance.current = new Chart(ctx, {
           type: "line",
           data: salesData,
@@ -55,10 +58,21 @@ export function AdminSalesChart() {
               legend: {
                 position: "top",
                 align: "end",
+                labels: {
+                  color: isDarkMode ? "#e5e7eb" : "#374151",
+                  font: {
+                    weight: "medium",
+                  },
+                },
               },
               tooltip: {
                 mode: "index",
                 intersect: false,
+                backgroundColor: isDarkMode ? "rgba(17, 24, 39, 0.8)" : "rgba(255, 255, 255, 0.8)",
+                titleColor: isDarkMode ? "#e5e7eb" : "#111827",
+                bodyColor: isDarkMode ? "#d1d5db" : "#374151",
+                borderColor: isDarkMode ? "rgba(75, 85, 99, 0.2)" : "rgba(203, 213, 225, 0.5)",
+                borderWidth: 1,
                 callbacks: {
                   label: (context) => {
                     let label = context.dataset.label || ""
@@ -80,11 +94,19 @@ export function AdminSalesChart() {
               x: {
                 grid: {
                   display: false,
+                  color: isDarkMode ? "rgba(75, 85, 99, 0.2)" : "rgba(203, 213, 225, 0.5)",
+                },
+                ticks: {
+                  color: isDarkMode ? "#9ca3af" : "#6b7280",
                 },
               },
               y: {
                 beginAtZero: true,
+                grid: {
+                  color: isDarkMode ? "rgba(75, 85, 99, 0.2)" : "rgba(203, 213, 225, 0.5)",
+                },
                 ticks: {
+                  color: isDarkMode ? "#9ca3af" : "#6b7280",
                   callback: (value) => "$" + value.toLocaleString(),
                 },
               },

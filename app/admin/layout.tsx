@@ -36,9 +36,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     return <>{children}</>
   }
 
+  // Update the admin layout for better dark mode appearance
   // If authenticated, render the admin layout
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 flex">
       <AdminSidebar />
       <div className="flex-1 flex flex-col">
         <AdminHeader />

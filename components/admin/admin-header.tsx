@@ -30,15 +30,15 @@ export default function AdminHeader() {
   }
 
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
+    <header className="bg-white border-b border-gray-200 sticky top-0 z-10 dark:bg-gray-900 dark:border-gray-800">
       <div className="flex h-16 items-center justify-between px-6">
         <div className="flex items-center gap-4">
           <form className="relative w-full max-w-md">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
             <Input
               type="search"
               placeholder="Search..."
-              className="pl-8 bg-gray-50 border-gray-200 focus-visible:ring-green-500"
+              className="pl-8 bg-gray-50 border-gray-200 focus-visible:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:placeholder:text-gray-500"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -46,12 +46,19 @@ export default function AdminHeader() {
         </div>
 
         <div className="flex items-center gap-4">
-          <Link href="/" className="text-sm text-green-600 hover:text-green-700 font-medium">
+          <Link
+            href="/"
+            className="text-sm text-green-600 hover:text-green-700 font-medium dark:text-emerald-500 dark:hover:text-emerald-400"
+          >
             View Store
           </Link>
 
-          <Button variant="ghost" size="icon" className="relative">
-            <Bell className="h-5 w-5 text-gray-500" />
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
+          >
+            <Bell className="h-5 w-5" />
             <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-red-500 text-[10px] text-white flex items-center justify-center">
               3
             </span>
@@ -62,28 +69,33 @@ export default function AdminHeader() {
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src="/abstract-admin-interface.png" alt="Admin" />
-                  <AvatarFallback>AD</AvatarFallback>
+                  <AvatarFallback className="bg-gradient-to-br from-green-500 to-emerald-600 text-white">
+                    AD
+                  </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuLabel className="font-normal">
                 <div className="flex flex-col space-y-1">
-                  <p className="text-sm font-medium leading-none">Admin User</p>
-                  <p className="text-xs leading-none text-muted-foreground">admin@golfgearpro.com</p>
+                  <p className="text-sm font-medium leading-none dark:text-gray-200">Admin User</p>
+                  <p className="text-xs leading-none text-muted-foreground dark:text-gray-400">admin@golfgearpro.com</p>
                 </div>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
                 <User className="mr-2 h-4 w-4" />
                 <span>Profile</span>
               </DropdownMenuItem>
-              <DropdownMenuItem>
+              <DropdownMenuItem className="cursor-pointer">
                 <Settings className="mr-2 h-4 w-4" />
                 <span>Settings</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="text-red-600 focus:text-red-600" onClick={handleLogout}>
+              <DropdownMenuItem
+                className="text-red-600 focus:text-red-600 dark:text-red-400 dark:focus:text-red-400 cursor-pointer"
+                onClick={handleLogout}
+              >
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>Log out</span>
               </DropdownMenuItem>
