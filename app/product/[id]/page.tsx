@@ -1,3 +1,6 @@
+"use client"
+import { useState } from "react"
+import React from "react"
 import { notFound } from "next/navigation"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
@@ -5,6 +8,8 @@ import { Heart, Minus, Plus, ShoppingCart, Star } from "lucide-react"
 import ProductImageCarousel from "@/components/product-image-carousel"
 import RelatedProducts from "@/components/related-products"
 import { formatIndianRupees, convertUSDtoINR } from "@/lib/utils"
+import { useCart } from "@/context/cart-context"
+import { toast } from "@/hooks/use-toast"
 
 // Update the sample product data to include all products referenced elsewhere in the app
 const products = [
@@ -133,7 +138,7 @@ const products = [
       "/callaway-rogue-st-max-irons.png",
       "/callaway-rogue-st-max-single-iron.png",
       "/rogue-st-max-address.png",
-      "/placeholder.svg?height=600&width=600&query=callaway+rogue+st+max+irons+back",
+      "/rogue-st-max-irons-back.png",
     ],
     rating: 4.8,
     reviewCount: 156,
@@ -164,10 +169,10 @@ const products = [
       Care: "Machine wash",
     },
     images: [
-      "/placeholder.svg?height=600&width=600&query=nike+dri+fit+golf+polo+front",
-      "/placeholder.svg?height=600&width=600&query=nike+dri+fit+golf+polo+back",
-      "/placeholder.svg?height=600&width=600&query=nike+dri+fit+golf+polo+detail",
-      "/placeholder.svg?height=600&width=600&query=nike+dri+fit+golf+polo+collar",
+      "/nike-dri-fit-golf-polo-front-view.png",
+      "/nike-dri-fit-golf-polo-back-view.png",
+      "/nike-golf-polo-fabric-detail.png",
+      "/golf-polo-close-up.png",
     ],
     rating: 4.6,
     reviewCount: 178,
@@ -199,10 +204,10 @@ const products = [
       Material: "High-denier polyester",
     },
     images: [
-      "/placeholder.svg?height=600&width=600&query=ping+hoofer+lite+stand+bag+front",
-      "/placeholder.svg?height=600&width=600&query=ping+hoofer+lite+stand+bag+side",
-      "/placeholder.svg?height=600&width=600&query=ping+hoofer+lite+stand+bag+top",
-      "/placeholder.svg?height=600&width=600&query=ping+hoofer+lite+stand+bag+pocket",
+      "/ping-hoofer-lite-front.png",
+      "/ping-hoofer-lite-side-view.png",
+      "/ping-hoofer-lite-top.png",
+      "/ping-hoofer-lite-pockets.png",
     ],
     rating: 4.7,
     reviewCount: 112,
@@ -233,10 +238,10 @@ const products = [
       "Grip Size": "Standard, Midsize, Jumbo",
     },
     images: [
-      "/placeholder.svg?height=600&width=600&query=golf+pride+mcc+plus4+grip+front",
-      "/placeholder.svg?height=600&width=600&query=golf+pride+mcc+plus4+grip+back",
-      "/placeholder.svg?height=600&width=600&query=golf+pride+mcc+plus4+grip+detail",
-      "/placeholder.svg?height=600&width=600&query=golf+pride+mcc+plus4+grip+installed",
+      "/golf-pride-mcc-plus4-front.png",
+      "/golf-grip-mcc-plus4-back.png",
+      "/golf-grip-detail.png",
+      "/golf-club-mcc-plus4.png",
     ],
     rating: 4.8,
     reviewCount: 245,
@@ -267,10 +272,10 @@ const products = [
       "Cup Holder": "Included",
     },
     images: [
-      "/placeholder.svg?height=600&width=600&query=clicgear+4.0+push+cart+side",
-      "/placeholder.svg?height=600&width=600&query=clicgear+4.0+push+cart+folded",
-      "/placeholder.svg?height=600&width=600&query=clicgear+4.0+push+cart+handle",
-      "/placeholder.svg?height=600&width=600&query=clicgear+4.0+push+cart+wheel",
+      "/clicgear-4-side-view.png",
+      "/folded-clicgear-4.png",
+      "/clicgear-4-handle-detail.png",
+      "/clicgear-4-wheel.png",
     ],
     rating: 4.9,
     reviewCount: 189,
@@ -302,9 +307,9 @@ const products = [
       Adjustability: "SureFit hosel with 16 settings",
     },
     images: [
-      "/placeholder.svg?height=600&width=600&query=titleist+tsi2+fairway+wood+front",
-      "/placeholder.svg?height=600&width=600&query=titleist+tsi2+fairway+wood+back",
-      "/placeholder.svg?height=600&width=600&query=titleist+tsi2+fairway+wood+sole",
+      "/titleist-tsi2-fairway-front.png",
+      "/tsi2-fairway-back.png",
+      "/titleist-tsi2-fairway-sole.png",
       "/placeholder.svg?height=600&width=600&query=titleist+tsi2+fairway+wood+address",
     ],
     rating: 4.8,
@@ -349,8 +354,14 @@ const products = [
 ]
 
 export default function ProductPage({ params }: { params: { id: string } }) {
-  // Convert the string ID from params to a number to match our product data
-  const productId = Number.parseInt(params.id, 10)
+  // Check if params.id is a Promise
+  const id =
+    typeof params.id === "object" && params.id !== null && "then" in params.id
+      ? React.use(params.id as Promise<string>)
+      : params.id
+
+  // Convert the string ID to a number
+  const productId = Number.parseInt(id, 10)
 
   // Find the product by numeric ID
   const product = products.find((p) => p.id === productId)
@@ -364,6 +375,50 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   // Convert prices to INR
   const priceInINR = convertUSDtoINR(product.price)
   const dealPriceInINR = product.dealPrice ? convertUSDtoINR(product.dealPrice) : undefined
+
+  const { addItem, isInCart } = useCart()
+  const [quantity, setQuantity] = useState(1)
+
+  // Add state for selected size and error message
+  const [selectedSize, setSelectedSize] = useState<string>("")
+  const [sizeError, setSizeError] = useState<string>("")
+
+  // Add a function to check if size selection is mandatory
+  const isSizeRequired = (category: string): boolean => {
+    return category.toLowerCase() === "shoes" || category.toLowerCase() === "apparels"
+  }
+
+  // Update the handleAddToCart function to check for size selection
+  const handleAddToCart = () => {
+    // Check if size selection is required but not selected
+    if (isSizeRequired(product.category) && !selectedSize) {
+      setSizeError("Please select a size before adding to cart")
+      return
+    }
+
+    // Clear any previous error
+    setSizeError("")
+
+    // Add item to cart with selected size
+    addItem(
+      {
+        ...product,
+        size: selectedSize || undefined,
+      },
+      quantity,
+    )
+
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart.`,
+    })
+  }
+
+  // Add a function to handle size selection
+  const handleSizeSelect = (size: string) => {
+    setSelectedSize(size)
+    setSizeError("") // Clear error when size is selected
+  }
 
   return (
     <div className="container py-8">
@@ -410,24 +465,37 @@ export default function ProductPage({ params }: { params: { id: string } }) {
 
           {product.sizes && (
             <div className="mb-6">
-              <h3 className="font-medium mb-2">Size</h3>
+              <h3 className="font-medium mb-2">
+                Size {isSizeRequired(product.category) && <span className="text-red-500">*</span>}
+              </h3>
               <div className="flex flex-wrap gap-2">
                 {product.sizes.map((size) => (
-                  <Button key={size} variant="outline" className="h-10 px-4 rounded-md">
+                  <Button
+                    key={size}
+                    variant={selectedSize === size ? "default" : "outline"}
+                    className={`h-10 px-4 rounded-md ${selectedSize === size ? "bg-green-700 hover:bg-green-800" : ""}`}
+                    onClick={() => handleSizeSelect(size)}
+                  >
                     {size}
                   </Button>
                 ))}
               </div>
+              {sizeError && <p className="text-red-500 text-sm mt-2">{sizeError}</p>}
             </div>
           )}
 
           <div className="flex items-center gap-4 mb-6">
             <div className="flex items-center border rounded-md">
-              <Button variant="ghost" size="icon" className="rounded-none">
+              <Button
+                variant="ghost"
+                size="icon"
+                className="rounded-none"
+                onClick={() => quantity > 1 && setQuantity(quantity - 1)}
+              >
                 <Minus className="h-4 w-4" />
               </Button>
-              <span className="w-12 text-center">1</span>
-              <Button variant="ghost" size="icon" className="rounded-none">
+              <span className="w-12 text-center">{quantity}</span>
+              <Button variant="ghost" size="icon" className="rounded-none" onClick={() => setQuantity(quantity + 1)}>
                 <Plus className="h-4 w-4" />
               </Button>
             </div>
@@ -435,9 +503,9 @@ export default function ProductPage({ params }: { params: { id: string } }) {
           </div>
 
           <div className="flex gap-4 mb-8">
-            <Button className="flex-1 bg-green-700 hover:bg-green-800">
+            <Button className="flex-1 bg-green-700 hover:bg-green-800" onClick={handleAddToCart}>
               <ShoppingCart className="h-4 w-4 mr-2" />
-              Add to Cart
+              {isInCart(productId) ? "Add Again" : "Add to Cart"}
             </Button>
             <Button variant="outline" size="icon">
               <Heart className="h-4 w-4" />

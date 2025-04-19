@@ -37,15 +37,12 @@ export default function MobileCategoryNav() {
           </Link>
         </div>
 
-        <div className="flex overflow-x-auto pb-2 scrollbar-hide gap-4">
+        {/* Changed from horizontal scrolling to grid layout */}
+        <div className="grid grid-cols-3 gap-3">
           {categories.map((category) => {
             const Icon = category.icon
             return (
-              <Link
-                key={category.name}
-                href={category.href}
-                className="flex flex-col items-center min-w-[70px] text-center"
-              >
+              <Link key={category.name} href={category.href} className="flex flex-col items-center text-center">
                 <div className="w-14 h-14 rounded-full bg-green-50 dark:bg-green-900/30 flex items-center justify-center mb-1 border border-green-100 dark:border-green-800">
                   <Icon className="h-6 w-6 text-green-600 dark:text-green-500" />
                 </div>

@@ -17,6 +17,7 @@ import { productData } from "@/lib/product-data"
 import UserAccountNav from "@/components/user-account-nav"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { formatIndianRupees, convertUSDtoINR } from "@/lib/utils"
+import { useCart } from "@/context/cart-context"
 
 const categories = [
   { name: "Balls", href: "/category/balls" },
@@ -41,6 +42,8 @@ export default function Header() {
   const searchRef = useRef<HTMLDivElement>(null)
   // Add a new state for mobile search
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
+
+  const { itemCount } = useCart()
 
   // Close search results when clicking outside
   useClickOutside(searchRef, () => {
@@ -144,6 +147,9 @@ export default function Header() {
     }
   }, [mobileSearchOpen])
 
+  // Check if current page is cart page
+  const isCartPage = pathname === "/cart"
+
   return (
     <header
       className={cn(
@@ -171,8 +177,159 @@ export default function Header() {
       {/* Main header */}
       <div className="container">
         <div className="flex h-20 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
+          {/* Mobile menu button - moved to the left */}
+          <div className="flex items-center md:hidden">
+            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={cn("rounded-full h-11 w-11", isScrolled ? "text-green-600" : "text-white")}
+                >
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-[300px] sm:w-[400px] p-0 overflow-y-auto max-h-screen">
+                <div className="bg-gradient-to-r from-emerald-600 via-green-500 to-teal-500 p-6">
+                  <Link href="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
+                    <div className="relative h-10 w-10 mr-2">
+                      <div className="absolute inset-0 bg-white rounded-full flex items-center justify-center">
+                        <span className="text-xl font-bold text-green-600">G</span>
+                      </div>
+                    </div>
+                    <div className="text-white font-bold">
+                      <span className="text-xl">GolfGear</span>
+                      <span className="text-xl font-light">Pro</span>
+                    </div>
+                  </Link>
+                </div>
+                <div className="p-6 pb-20">
+                  <div className="relative mb-6">
+                    <form onSubmit={handleSearch} className="w-full">
+                      <Input
+                        type="search"
+                        placeholder="Search products..."
+                        className="pr-10 rounded-full border-2 border-green-400"
+                        value={searchQuery}
+                        onChange={handleSearchInputChange}
+                      />
+                      {searchQuery ? (
+                        <button
+                          type="button"
+                          onClick={clearSearch}
+                          className="absolute right-12 top-0 h-10 flex items-center justify-center text-gray-400 hover:text-gray-600"
+                        >
+                          <X className="h-4 w-4" />
+                          <span className="sr-only">Clear search</span>
+                        </button>
+                      ) : null}
+                      <Button
+                        type="submit"
+                        size="icon"
+                        className="absolute right-0 top-0 rounded-full h-10 w-10 bg-green-600 hover:bg-green-700"
+                      >
+                        <Search className="h-4 w-4 text-white" />
+                        <span className="sr-only">Search</span>
+                      </Button>
+                    </form>
+
+                    {/* Mobile search results */}
+                    {showSearchResults && searchQuery.trim().length > 1 && (
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 max-h-[60vh] overflow-y-auto">
+                        {searchResults.length > 0 ? (
+                          <div>
+                            <div className="max-h-[300px] overflow-y-auto">
+                              {searchResults.map((product) => (
+                                <div
+                                  key={product.id}
+                                  className="flex items-center p-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-100 dark:border-gray-700 last:border-0"
+                                  onClick={() => {
+                                    handleSearchResultClick(product.id)
+                                    setMobileSearchOpen(false)
+                                  }}
+                                >
+                                  <div className="relative h-12 w-12 rounded-md overflow-hidden flex-shrink-0">
+                                    <Image
+                                      src={
+                                        product.image && product.image.trim() !== ""
+                                          ? product.image
+                                          : "/placeholder.svg?height=100&width=100&query=golf+product"
+                                      }
+                                      alt={product.name}
+                                      fill
+                                      className="object-cover"
+                                    />
+                                  </div>
+                                  <div className="ml-3 flex-1 min-w-0">
+                                    <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
+                                      {product.name}
+                                    </p>
+                                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                                      {formatIndianRupees(convertUSDtoINR(product.dealPrice || product.price))}
+                                    </p>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="p-4 text-center">
+                            <p className="text-sm text-gray-500">No products found</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="space-y-1 mb-6">
+                    <h3 className="font-semibold text-lg mb-2">Categories</h3>
+                    {categories.map((category) => (
+                      <Link
+                        key={category.name}
+                        href={category.href}
+                        className={cn(
+                          "block py-2 px-3 rounded-md transition-colors",
+                          pathname === category.href
+                            ? "bg-green-100 text-green-700 font-medium"
+                            : "text-gray-700 hover:bg-green-50 hover:text-green-700",
+                        )}
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {category.name}
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="space-y-1">
+                    <h3 className="font-semibold text-lg mb-2">Account</h3>
+                    <Link
+                      href="/account"
+                      className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      My Account
+                    </Link>
+                    <Link
+                      href="/cart"
+                      className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Cart
+                    </Link>
+                    <Link
+                      href="/orders"
+                      className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      My Orders
+                    </Link>
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
+
+          {/* Logo - centered on mobile */}
+          <Link href="/" className="flex items-center md:ml-0">
             <div className="relative h-12 w-12 mr-2">
               <div className="absolute inset-0 bg-white rounded-full flex items-center justify-center">
                 <span className="text-2xl font-bold text-green-600">G</span>
@@ -297,16 +454,18 @@ export default function Header() {
                 )}
               >
                 <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-amber-500 text-xs text-white flex items-center justify-center font-bold">
-                  3
-                </span>
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-amber-500 text-xs text-white flex items-center justify-center font-bold">
+                    {itemCount}
+                  </span>
+                )}
               </Button>
             </Link>
             <ThemeToggle />
             <UserAccountNav />
           </div>
 
-          {/* Mobile search and menu buttons */}
+          {/* Mobile icons - rearranged as requested */}
           <div className="flex items-center gap-2 md:hidden">
             {/* Mobile search icon */}
             <Button
@@ -318,170 +477,24 @@ export default function Header() {
               <Search className="h-5 w-5" />
             </Button>
 
+            {/* Cart icon for mobile */}
+            <Link href="/cart" className="relative">
+              <Button
+                variant="ghost"
+                size="icon"
+                className={cn("rounded-full h-11 w-11", isScrolled ? "text-green-600" : "text-white")}
+              >
+                <ShoppingCart className="h-5 w-5" />
+                {itemCount > 0 && (
+                  <span className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-amber-500 text-xs text-white flex items-center justify-center font-bold">
+                    {itemCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
+
             {/* Add ThemeToggle here for mobile */}
             <ThemeToggle />
-
-            {/* Mobile menu button */}
-            <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
-              <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className={cn("rounded-full h-11 w-11", isScrolled ? "text-green-600" : "text-white")}
-                >
-                  <Menu className="h-6 w-6" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="w-[300px] sm:w-[400px] p-0 overflow-y-auto max-h-screen">
-                <div className="bg-gradient-to-r from-emerald-600 via-green-500 to-teal-500 p-6">
-                  <Link href="/" className="flex items-center" onClick={() => setIsMenuOpen(false)}>
-                    <div className="relative h-10 w-10 mr-2">
-                      <div className="absolute inset-0 bg-white rounded-full flex items-center justify-center">
-                        <span className="text-xl font-bold text-green-600">G</span>
-                      </div>
-                    </div>
-                    <div className="text-white font-bold">
-                      <span className="text-xl">GolfGear</span>
-                      <span className="text-xl font-light">Pro</span>
-                    </div>
-                  </Link>
-                </div>
-                <div className="p-6 pb-20">
-                  <div className="relative mb-6">
-                    <form onSubmit={handleSearch} className="w-full">
-                      <Input
-                        type="search"
-                        placeholder="Search products..."
-                        className="pr-10 rounded-full border-2 border-green-400"
-                        value={searchQuery}
-                        onChange={handleSearchInputChange}
-                      />
-                      {searchQuery ? (
-                        <button
-                          type="button"
-                          onClick={clearSearch}
-                          className="absolute right-12 top-0 h-10 flex items-center justify-center text-gray-400 hover:text-gray-600"
-                        >
-                          <X className="h-4 w-4" />
-                          <span className="sr-only">Clear search</span>
-                        </button>
-                      ) : null}
-                      <Button
-                        type="submit"
-                        size="icon"
-                        className="absolute right-0 top-0 rounded-full h-10 w-10 bg-green-600 hover:bg-green-700"
-                      >
-                        <Search className="h-4 w-4 text-white" />
-                        <span className="sr-only">Search</span>
-                      </Button>
-                    </form>
-
-                    {/* Mobile search results */}
-                    {showSearchResults && searchQuery.trim().length > 1 && (
-                      <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden z-50">
-                        {searchResults.length > 0 ? (
-                          <div>
-                            <div className="max-h-[300px] overflow-y-auto">
-                              {searchResults.map((product) => (
-                                <div
-                                  key={product.id}
-                                  className="flex items-center p-3 hover:bg-gray-50 cursor-pointer border-b border-gray-100 last:border-0"
-                                  onClick={() => {
-                                    handleSearchResultClick(product.id)
-                                    setIsMenuOpen(false)
-                                  }}
-                                >
-                                  <div className="relative h-10 w-10 rounded-md overflow-hidden flex-shrink-0">
-                                    <Image
-                                      src={
-                                        product.image && product.image.trim() !== ""
-                                          ? product.image
-                                          : "/placeholder.svg?height=100&width=100&query=golf+product"
-                                      }
-                                      alt={product.name}
-                                      fill
-                                      className="object-cover"
-                                    />
-                                  </div>
-                                  <div className="ml-3 flex-1 min-w-0">
-                                    <p className="text-sm font-medium text-gray-900 truncate">{product.name}</p>
-                                    <p className="text-xs text-gray-500">
-                                      {formatIndianRupees(convertUSDtoINR(product.dealPrice || product.price))}
-                                    </p>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                            <div className="p-2 bg-gray-50 border-t border-gray-100">
-                              <button
-                                onClick={() => {
-                                  if (searchQuery.trim()) {
-                                    router.push(`/search?q=${encodeURIComponent(searchQuery)}`)
-                                    setShowSearchResults(false)
-                                    setIsMenuOpen(false)
-                                  }
-                                }}
-                                className="text-sm text-green-700 hover:text-green-800 font-medium w-full text-center"
-                              >
-                                View all results
-                              </button>
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="p-4 text-center">
-                            <p className="text-sm text-gray-500">No products found</p>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="space-y-1 mb-6">
-                    <h3 className="font-semibold text-lg mb-2">Categories</h3>
-                    {categories.map((category) => (
-                      <Link
-                        key={category.name}
-                        href={category.href}
-                        className={cn(
-                          "block py-2 px-3 rounded-md transition-colors",
-                          pathname === category.href
-                            ? "bg-green-100 text-green-700 font-medium"
-                            : "text-gray-700 hover:bg-green-50 hover:text-green-700",
-                        )}
-                        onClick={() => setIsMenuOpen(false)}
-                      >
-                        {category.name}
-                      </Link>
-                    ))}
-                  </div>
-                  <div className="space-y-1">
-                    <h3 className="font-semibold text-lg mb-2">Account</h3>
-                    <Link
-                      href="/account"
-                      className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      My Account
-                    </Link>
-                    <Link
-                      href="/cart"
-                      className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Cart
-                    </Link>
-                    <Link
-                      href="/orders"
-                      className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      My Orders
-                    </Link>
-                  </div>
-                  {/* Remove the ThemeToggle section from here */}
-                </div>
-              </SheetContent>
-            </Sheet>
           </div>
         </div>
       </div>
@@ -610,6 +623,8 @@ export default function Header() {
           </nav>
         </div>
       </div>
+
+      {/* Removed the fixed mobile cart button when on cart page */}
     </header>
   )
 }
