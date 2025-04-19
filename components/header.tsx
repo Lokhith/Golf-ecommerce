@@ -184,7 +184,7 @@ export default function Header() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className={cn("rounded-full h-11 w-11", isScrolled ? "text-green-600" : "text-white")}
+                  className={cn("rounded-full h-11 w-11 -ml-3", isScrolled ? "text-green-600" : "text-white")}
                 >
                   <Menu className="h-6 w-6" />
                 </Button>
@@ -465,13 +465,13 @@ export default function Header() {
             <UserAccountNav />
           </div>
 
-          {/* Mobile icons - rearranged as requested */}
-          <div className="flex items-center gap-2 md:hidden">
+          {/* Mobile icons - properly spaced with theme toggle on the right */}
+          <div className="flex items-center md:hidden">
             {/* Mobile search icon */}
             <Button
               variant="ghost"
               size="icon"
-              className={cn("rounded-full h-11 w-11", isScrolled ? "text-green-600" : "text-white")}
+              className={cn("rounded-full h-10 w-10", isScrolled ? "text-green-600" : "text-white")}
               onClick={toggleMobileSearch}
             >
               <Search className="h-5 w-5" />
@@ -482,7 +482,7 @@ export default function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className={cn("rounded-full h-11 w-11", isScrolled ? "text-green-600" : "text-white")}
+                className={cn("rounded-full h-10 w-10", isScrolled ? "text-green-600" : "text-white")}
               >
                 <ShoppingCart className="h-5 w-5" />
                 {itemCount > 0 && (
@@ -493,8 +493,10 @@ export default function Header() {
               </Button>
             </Link>
 
-            {/* Add ThemeToggle here for mobile */}
-            <ThemeToggle />
+            {/* ThemeToggle at the far right */}
+            <div className="ml-1">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       </div>
