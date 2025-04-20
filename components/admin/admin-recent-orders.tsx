@@ -63,7 +63,7 @@ export function AdminRecentOrders() {
             <div className="font-medium dark:text-gray-300">{order.id}</div>
             <div className="truncate dark:text-gray-300">{order.customer}</div>
             <div className="dark:text-gray-400">{new Date(order.date).toLocaleDateString()}</div>
-            <div className="dark:text-gray-300">${order.total.toFixed(2)}</div>
+            <div className="dark:text-gray-300">₹{Math.round(order.total * 83).toLocaleString("en-IN")}</div>
             <div className="flex items-center gap-2">
               <Badge
                 className={

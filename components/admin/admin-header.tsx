@@ -2,9 +2,9 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Bell, Search, User } from "lucide-react"
+import { Bell, Search, User, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -17,10 +17,29 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from "next/navigation"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
 export default function AdminHeader() {
   const [searchQuery, setSearchQuery] = useState("")
+  const [isMobile, setIsMobile] = useState(false)
+  const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
   const router = useRouter()
+
+  useEffect(() => {
+    // Check if we're on mobile
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    // Initial check
+    checkMobile()
+
+    // Add resize listener
+    window.addEventListener("resize", checkMobile)
+
+    // Cleanup
+    return () => window.removeEventListener("resize", checkMobile)
+  }, [])
 
   const handleLogout = () => {
     // Remove authentication flag
@@ -31,19 +50,50 @@ export default function AdminHeader() {
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-10 dark:bg-gray-900 dark:border-gray-800">
-      <div className="flex h-16 items-center justify-between px-6">
-        <div className="flex items-center gap-4">
-          <form className="relative w-full max-w-md">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
-            <Input
-              type="search"
-              placeholder="Search..."
-              className="pl-8 bg-gray-50 border-gray-200 focus-visible:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:placeholder:text-gray-500"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </form>
-        </div>
+      <div className="flex h-16 items-center justify-between px-4 md:px-6">
+        {/* Mobile search button */}
+        {isMobile && (
+          <Sheet open={mobileSearchOpen} onOpenChange={setMobileSearchOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden ml-auto">
+                <Search className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="top" className="p-4">
+              <div className="flex items-center gap-2">
+                <div className="relative flex-1">
+                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
+                  <Input
+                    type="search"
+                    placeholder="Search..."
+                    className="pl-8 bg-gray-50 border-gray-200 focus-visible:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:placeholder:text-gray-500"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+                <Button variant="ghost" size="icon" onClick={() => setMobileSearchOpen(false)}>
+                  <X className="h-5 w-5" />
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
+        )}
+
+        {/* Desktop search */}
+        {!isMobile && (
+          <div className="flex items-center gap-4">
+            <form className="relative w-full max-w-md">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500 dark:text-gray-400" />
+              <Input
+                type="search"
+                placeholder="Search..."
+                className="pl-8 bg-gray-50 border-gray-200 focus-visible:ring-green-500 dark:bg-gray-800 dark:border-gray-700 dark:placeholder:text-gray-500"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </form>
+          </div>
+        )}
 
         <div className="flex items-center gap-4">
           <Link

@@ -80,10 +80,11 @@ export function AdminSalesChart() {
                       label += ": "
                     }
                     if (context.parsed.y !== null) {
-                      label += new Intl.NumberFormat("en-US", {
+                      label += new Intl.NumberFormat("en-IN", {
                         style: "currency",
-                        currency: "USD",
-                      }).format(context.parsed.y)
+                        currency: "INR",
+                        maximumFractionDigits: 0,
+                      }).format(context.parsed.y * 83)
                     }
                     return label
                   },
@@ -107,7 +108,7 @@ export function AdminSalesChart() {
                 },
                 ticks: {
                   color: isDarkMode ? "#9ca3af" : "#6b7280",
-                  callback: (value) => "$" + value.toLocaleString(),
+                  callback: (value) => "₹" + (Number(value) * 83).toLocaleString("en-IN"),
                 },
               },
             },

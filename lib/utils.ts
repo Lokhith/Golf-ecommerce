@@ -11,7 +11,7 @@ export function cn(...inputs: ClassValue[]) {
  * @returns Formatted string with ₹ symbol
  */
 export function formatIndianRupees(amount: number): string {
-  // Convert to Indian format (e.g., ₹1,23,456.00)
+  // Convert to Indian format (e.g., ₹1,23,456)
   const formatter = new Intl.NumberFormat("en-IN", {
     style: "currency",
     currency: "INR",
