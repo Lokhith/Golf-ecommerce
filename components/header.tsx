@@ -110,7 +110,7 @@ export default function Header() {
   const toggleMobileSearch = () => {
     setMobileSearchOpen(!mobileSearchOpen)
     if (!mobileSearchOpen) {
-      // Focus the input when opening
+      // Focus the input when explicitly opening the search
       setTimeout(() => {
         const mobileSearchInput = document.getElementById("mobile-search-input")
         if (mobileSearchInput) {
@@ -204,7 +204,8 @@ export default function Header() {
                   </Link>
                 </div>
                 <div className="p-6 pb-20">
-                  <div className="relative mb-6">
+                  {/* Search bar - moved to the top */}
+                  <div className="relative mb-6 animate-in slide-in-from-left duration-300">
                     <form onSubmit={handleSearch} className="w-full">
                       <Input
                         type="search"
@@ -212,6 +213,7 @@ export default function Header() {
                         className="pr-10 rounded-full border-2 border-green-400"
                         value={searchQuery}
                         onChange={handleSearchInputChange}
+                        autoFocus={false} // Explicitly set autoFocus to false
                       />
                       {searchQuery ? (
                         <button
@@ -246,6 +248,7 @@ export default function Header() {
                                   onClick={() => {
                                     handleSearchResultClick(product.id)
                                     setMobileSearchOpen(false)
+                                    setIsMenuOpen(false)
                                   }}
                                 >
                                   <div className="relative h-12 w-12 rounded-md overflow-hidden flex-shrink-0">
@@ -281,47 +284,96 @@ export default function Header() {
                     )}
                   </div>
 
-                  <div className="space-y-1 mb-6">
-                    <h3 className="font-semibold text-lg mb-2">Categories</h3>
-                    {categories.map((category) => (
+                  {/* Categories section - now below search */}
+                  <div className="space-y-1 mb-6 animate-in slide-in-from-left duration-300 delay-150">
+                    <h3 className="font-semibold text-lg mb-3">Categories</h3>
+                    <div className="grid grid-cols-2 gap-3">
+                      {categories.map((category) => (
+                        <Link
+                          key={category.name}
+                          href={category.href}
+                          className={cn(
+                            "flex flex-col items-center p-3 rounded-lg transition-colors border border-gray-100 dark:border-gray-800",
+                            pathname === category.href
+                              ? "bg-green-50 text-green-700 border-green-200 dark:bg-green-900/20 dark:text-green-400 dark:border-green-800"
+                              : "text-gray-700 hover:bg-green-50 hover:text-green-700 hover:border-green-200 dark:text-gray-300 dark:hover:bg-green-900/20 dark:hover:text-green-400 dark:hover:border-green-800",
+                          )}
+                          onClick={() => setIsMenuOpen(false)}
+                        >
+                          <span className="text-sm font-medium">{category.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Quick links - adjust delay */}
+                  <div className="space-y-1 animate-in slide-in-from-left duration-300 delay-300">
+                    <h3 className="font-semibold text-lg mb-3">Quick Links</h3>
+                    <div className="space-y-2">
                       <Link
-                        key={category.name}
-                        href={category.href}
-                        className={cn(
-                          "block py-2 px-3 rounded-md transition-colors",
-                          pathname === category.href
-                            ? "bg-green-100 text-green-700 font-medium"
-                            : "text-gray-700 hover:bg-green-50 hover:text-green-700",
-                        )}
+                        href="/featured"
+                        className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors dark:text-gray-300 dark:hover:bg-green-900/20 dark:hover:text-green-400"
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        {category.name}
+                        Featured Products
                       </Link>
-                    ))}
+                      <Link
+                        href="/new-arrivals"
+                        className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors dark:text-gray-300 dark:hover:bg-green-900/20 dark:hover:text-green-400"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        New Arrivals
+                      </Link>
+                      <Link
+                        href="/top-deals"
+                        className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors dark:text-gray-300 dark:hover:bg-green-900/20 dark:hover:text-green-400"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Top Deals
+                      </Link>
+                      <Link
+                        href="/essential-items"
+                        className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors dark:text-gray-300 dark:hover:bg-green-900/20 dark:hover:text-green-400"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Essential Items
+                      </Link>
+                    </div>
                   </div>
-                  <div className="space-y-1">
-                    <h3 className="font-semibold text-lg mb-2">Account</h3>
-                    <Link
-                      href="/account"
-                      className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      My Account
-                    </Link>
-                    <Link
-                      href="/cart"
-                      className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Cart
-                    </Link>
-                    <Link
-                      href="/orders"
-                      className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      My Orders
-                    </Link>
+
+                  {/* Account links - adjust delay */}
+                  <div className="space-y-1 mt-6 animate-in slide-in-from-left duration-300 delay-500">
+                    <h3 className="font-semibold text-lg mb-3">Account</h3>
+                    <div className="space-y-2">
+                      <Link
+                        href="/account"
+                        className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors dark:text-gray-300 dark:hover:bg-green-900/20 dark:hover:text-green-400"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        My Account
+                      </Link>
+                      <Link
+                        href="/cart"
+                        className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors dark:text-gray-300 dark:hover:bg-green-900/20 dark:hover:text-green-400"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Cart
+                      </Link>
+                      <Link
+                        href="/orders"
+                        className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors dark:text-gray-300 dark:hover:bg-green-900/20 dark:hover:text-green-400"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        My Orders
+                      </Link>
+                      <Link
+                        href="/contact"
+                        className="block py-2 px-3 rounded-md text-gray-700 hover:bg-green-50 hover:text-green-700 transition-colors dark:text-gray-300 dark:hover:bg-green-900/20 dark:hover:text-green-400"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Contact Us
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </SheetContent>

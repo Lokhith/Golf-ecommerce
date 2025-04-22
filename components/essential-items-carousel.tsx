@@ -3,7 +3,7 @@
 import { useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { formatIndianRupees, convertUSDtoINR } from "@/lib/utils"
@@ -105,6 +105,12 @@ export default function EssentialItemsCarousel() {
             <ChevronRight className="h-5 w-5" />
             <span className="sr-only">Scroll right</span>
           </Button>
+          <Link href="/essential-items" className="hidden md:block">
+            <Button variant="outline" className="gap-2 group">
+              View All
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -141,6 +147,16 @@ export default function EssentialItemsCarousel() {
             </Link>
           ))}
         </div>
+      </div>
+
+      {/* Mobile view all button */}
+      <div className="flex justify-center mt-4 md:hidden">
+        <Link href="/essential-items">
+          <Button variant="outline" className="gap-2 group">
+            View All Essentials
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Button>
+        </Link>
       </div>
     </div>
   )

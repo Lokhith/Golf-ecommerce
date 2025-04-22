@@ -3,7 +3,7 @@
 import { useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -130,6 +130,12 @@ export default function TopDeals() {
             <ChevronRight className="h-5 w-5" />
             <span className="sr-only">Scroll right</span>
           </Button>
+          <Link href="/top-deals" className="hidden md:block">
+            <Button variant="outline" className="gap-2 group">
+              View All
+              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
         </div>
       </div>
 
@@ -178,6 +184,16 @@ export default function TopDeals() {
             </Link>
           ))}
         </div>
+      </div>
+
+      {/* Mobile view all button */}
+      <div className="flex justify-center mt-4 md:hidden">
+        <Link href="/top-deals">
+          <Button variant="outline" className="gap-2 group">
+            View All Deals
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+          </Button>
+        </Link>
       </div>
     </div>
   )
