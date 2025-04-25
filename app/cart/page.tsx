@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Minus, Plus, ShoppingCart, Trash2, ArrowLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
@@ -11,6 +12,7 @@ import { useCart } from "@/context/cart-context"
 import { toast } from "@/hooks/use-toast"
 
 export default function CartPage() {
+  const router = useRouter()
   const {
     items,
     removeItem,
@@ -50,6 +52,10 @@ export default function CartPage() {
       variant: "destructive",
     })
     setCouponCode("")
+  }
+
+  const handleCheckout = () => {
+    router.push("/checkout")
   }
 
   return (
@@ -217,7 +223,9 @@ export default function CartPage() {
                 </div>
               </div>
 
-              <Button className="w-full mt-6 bg-green-700 hover:bg-green-800">Proceed to Checkout</Button>
+              <Button className="w-full mt-6 bg-green-700 hover:bg-green-800" onClick={handleCheckout}>
+                Proceed to Checkout
+              </Button>
 
               <div className="mt-6">
                 <h4 className="font-medium mb-2 text-sm">Have a coupon?</h4>
@@ -244,7 +252,9 @@ export default function CartPage() {
             <span className="text-sm font-medium">Total:</span>
             <span className="text-lg font-bold text-green-700 dark:text-green-500">{formattedTotal}</span>
           </div>
-          <Button className="w-full bg-green-700 hover:bg-green-800">Proceed to Checkout</Button>
+          <Button className="w-full bg-green-700 hover:bg-green-800" onClick={handleCheckout}>
+            Proceed to Checkout
+          </Button>
         </div>
       )}
 
