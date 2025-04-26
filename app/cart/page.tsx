@@ -4,7 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { Minus, Plus, ShoppingCart, Trash2, ArrowLeft } from "lucide-react"
+import { Minus, Plus, ShoppingCart, Trash2, ArrowLeft, ShoppingBag } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Input } from "@/components/ui/input"
@@ -59,14 +59,14 @@ export default function CartPage() {
   }
 
   return (
-    <div className="container py-4 md:py-8">
+    <div className="container max-w-5xl py-4 md:py-8">
       <div className="flex items-center mb-4">
         <Link href="/" className="mr-3">
           <Button variant="ghost" size="icon" className="rounded-full h-9 w-9">
             <ArrowLeft className="h-4 w-4" />
           </Button>
         </Link>
-        <h1 className="text-2xl md:text-3xl font-bold">Shopping Cart</h1>
+        <h1 className="text-xl md:text-2xl font-bold">Shopping Cart</h1>
       </div>
 
       {items.length === 0 ? (
@@ -77,42 +77,47 @@ export default function CartPage() {
           <h2 className="text-xl font-semibold mb-2">Your cart is empty</h2>
           <p className="text-muted-foreground mb-6">Looks like you haven't added anything to your cart yet.</p>
           <Link href="/">
-            <Button className="bg-green-700 hover:bg-green-800">Continue Shopping</Button>
+            <Button className="bg-green-700 hover:bg-green-800 shadow-sm hover:shadow-md transition-all">
+              Continue Shopping
+            </Button>
           </Link>
         </div>
       ) : (
         <div className="grid md:grid-cols-3 gap-4 md:gap-8">
           <div className="md:col-span-2">
-            <div className="rounded-lg border overflow-hidden">
-              <div className="bg-muted px-4 py-3 md:px-6 md:py-4">
+            <div className="rounded-lg border border-green-100 dark:border-green-900 overflow-hidden shadow-sm">
+              <div className="bg-green-50 dark:bg-green-900/30 px-4 py-3 md:px-6 md:py-4">
                 <div className="grid grid-cols-12 gap-2 md:gap-4">
                   <div className="col-span-6">
-                    <h3 className="font-medium text-sm md:text-base">Product</h3>
+                    <h3 className="font-medium text-sm md:text-base text-green-800 dark:text-green-300">Product</h3>
                   </div>
                   <div className="col-span-2 text-center hidden md:block">
-                    <h3 className="font-medium">Price</h3>
+                    <h3 className="font-medium text-green-800 dark:text-green-300">Price</h3>
                   </div>
                   <div className="col-span-3 md:col-span-2 text-center">
-                    <h3 className="font-medium text-sm md:text-base">Quantity</h3>
+                    <h3 className="font-medium text-sm md:text-base text-green-800 dark:text-green-300">Quantity</h3>
                   </div>
                   <div className="col-span-3 md:col-span-2 text-right">
-                    <h3 className="font-medium text-sm md:text-base">Total</h3>
+                    <h3 className="font-medium text-sm md:text-base text-green-800 dark:text-green-300">Total</h3>
                   </div>
                 </div>
               </div>
 
-              <div className="divide-y">
+              <div className="divide-y divide-green-100 dark:divide-green-900">
                 {items.map((item) => {
                   const itemPrice = item.dealPrice || item.price
                   const itemTotal = itemPrice * item.quantity
                   const itemTotalINR = Math.round(itemTotal * 83)
 
                   return (
-                    <div key={item.id} className="p-4 md:p-6">
+                    <div
+                      key={item.id}
+                      className="p-4 md:p-6 hover:bg-green-50/50 dark:hover:bg-green-900/10 transition-colors"
+                    >
                       <div className="grid grid-cols-12 gap-2 md:gap-4 items-center">
                         <div className="col-span-6">
                           <div className="flex items-center gap-3 md:gap-4">
-                            <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-md overflow-hidden border">
+                            <div className="relative w-12 h-12 md:w-16 md:h-16 rounded-md overflow-hidden border border-green-100 dark:border-green-900 shadow-sm">
                               <Image
                                 src={item.image || "/placeholder.svg"}
                                 alt={item.name}
@@ -147,11 +152,11 @@ export default function CartPage() {
                           ₹{Math.round((item.dealPrice || item.price) * 83).toLocaleString("en-IN")}
                         </div>
                         <div className="col-span-3 md:col-span-2">
-                          <div className="flex items-center justify-center border rounded-md max-w-[100px] mx-auto">
+                          <div className="flex items-center justify-center border rounded-md max-w-[100px] mx-auto border-green-200 dark:border-green-800">
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-7 w-7 md:h-8 md:w-8 rounded-none"
+                              className="h-7 w-7 md:h-8 md:w-8 rounded-none text-green-700 dark:text-green-400"
                               onClick={() => updateQuantity(item.id, item.quantity - 1, item.size)}
                               disabled={item.quantity <= 1}
                             >
@@ -161,7 +166,7 @@ export default function CartPage() {
                             <Button
                               variant="ghost"
                               size="icon"
-                              className="h-7 w-7 md:h-8 md:w-8 rounded-none"
+                              className="h-7 w-7 md:h-8 md:w-8 rounded-none text-green-700 dark:text-green-400"
                               onClick={() => updateQuantity(item.id, item.quantity + 1, item.size)}
                             >
                               <Plus className="h-3 w-3" />
@@ -180,7 +185,11 @@ export default function CartPage() {
 
             <div className="mt-4 md:mt-8 flex flex-col md:flex-row justify-between items-center gap-4">
               <Link href="/">
-                <Button variant="outline" size="sm" className="w-full md:w-auto">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full md:w-auto border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20"
+                >
                   <ArrowLeft className="h-4 w-4 mr-2" />
                   Continue Shopping
                 </Button>
@@ -188,7 +197,7 @@ export default function CartPage() {
               <Button
                 variant="outline"
                 size="sm"
-                className="text-red-500 hover:text-red-700 hover:bg-red-50 w-full md:w-auto"
+                className="text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/10 w-full md:w-auto border-red-200 dark:border-red-900"
                 onClick={handleClearCart}
               >
                 <Trash2 className="h-4 w-4 mr-2" />
@@ -198,8 +207,8 @@ export default function CartPage() {
           </div>
 
           <div>
-            <div className="rounded-lg border p-4 md:p-6 sticky top-20">
-              <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
+            <div className="rounded-lg border border-green-100 dark:border-green-900 p-4 md:p-5 sticky top-20 shadow-sm">
+              <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-300">Order Summary</h3>
 
               <div className="space-y-3">
                 <div className="flex justify-between">
@@ -215,17 +224,34 @@ export default function CartPage() {
                   <span>{formattedTax}</span>
                 </div>
 
-                <Separator />
+                <Separator className="my-1" />
 
                 <div className="flex justify-between font-semibold text-lg">
                   <span>Total</span>
-                  <span>{formattedTotal}</span>
+                  <span className="text-green-700 dark:text-green-400">{formattedTotal}</span>
                 </div>
               </div>
 
-              <Button className="w-full mt-6 bg-green-700 hover:bg-green-800" onClick={handleCheckout}>
+              <Button
+                className="w-full mt-5 bg-green-700 hover:bg-green-800 text-white shadow-md transition-all hover:shadow-lg"
+                onClick={handleCheckout}
+              >
+                <ShoppingBag className="h-4 w-4 mr-2" />
                 Proceed to Checkout
               </Button>
+
+              <div className="mt-4 bg-green-50 dark:bg-green-900/20 rounded-md p-3">
+                <div className="flex items-start">
+                  <div className="flex-shrink-0 mt-0.5">
+                    <ShoppingBag className="h-4 w-4 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div className="ml-2">
+                    <p className="text-xs text-green-800 dark:text-green-300">
+                      Your order is eligible for FREE Delivery
+                    </p>
+                  </div>
+                </div>
+              </div>
 
               <div className="mt-6">
                 <h4 className="font-medium mb-2 text-sm">Have a coupon?</h4>
@@ -234,9 +260,14 @@ export default function CartPage() {
                     placeholder="Enter coupon code"
                     value={couponCode}
                     onChange={(e) => setCouponCode(e.target.value)}
-                    className="text-sm"
+                    className="text-sm focus-visible:ring-green-300"
                   />
-                  <Button variant="outline" size="sm" onClick={handleApplyCoupon}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleApplyCoupon}
+                    className="border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20"
+                  >
                     Apply
                   </Button>
                 </div>
@@ -247,12 +278,13 @@ export default function CartPage() {
       )}
       {/* Mobile sticky checkout bar */}
       {items.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700 p-4 md:hidden z-40">
+        <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-green-100 dark:border-green-900 p-4 md:hidden z-40 shadow-lg">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium">Total:</span>
-            <span className="text-lg font-bold text-green-700 dark:text-green-500">{formattedTotal}</span>
+            <span className="text-lg font-bold text-green-700 dark:text-green-400">{formattedTotal}</span>
           </div>
-          <Button className="w-full bg-green-700 hover:bg-green-800" onClick={handleCheckout}>
+          <Button className="w-full bg-green-700 hover:bg-green-800 text-white shadow-md" onClick={handleCheckout}>
+            <ShoppingBag className="h-4 w-4 mr-2" />
             Proceed to Checkout
           </Button>
         </div>
