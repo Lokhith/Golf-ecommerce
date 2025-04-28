@@ -79,7 +79,7 @@ export default function PaymentPage() {
   }
 
   return (
-    <div className="container max-w-5xl py-4 md:py-8">
+    <div className="container px-3 sm:px-4 py-4 md:py-8 max-w-5xl mx-auto">
       {/* Checkout Progress Indicator */}
       <div className="mb-6 hidden md:block">
         <div className="flex items-center justify-center">
@@ -109,8 +109,8 @@ export default function PaymentPage() {
       </div>
 
       {/* Mobile Progress Indicator */}
-      <div className="mb-4 md:hidden">
-        <div className="flex items-center justify-between px-2 py-3 bg-muted rounded-lg">
+      <div className="mb-3 md:hidden">
+        <div className="flex items-center justify-between px-2 py-2 bg-muted rounded-lg">
           <div className="flex items-center">
             <div className="w-6 h-6 rounded-full bg-green-700 text-white flex items-center justify-center text-xs mr-2">
               <Check className="h-3 w-3" />
@@ -143,17 +143,21 @@ export default function PaymentPage() {
         <h1 className="text-xl md:text-2xl font-bold">Payment Method</h1>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-4 md:gap-8">
+      <div className="grid md:grid-cols-3 gap-3 md:gap-8">
         <div className="md:col-span-2">
-          <Card className="mb-6 border-green-100 dark:border-green-900 shadow-sm">
-            <CardHeader className="bg-green-50 dark:bg-green-900/30 pb-3">
+          <Card className="mb-4 md:mb-6 border-green-100 dark:border-green-900 shadow-sm overflow-hidden">
+            <CardHeader className="bg-green-50 dark:bg-green-900/30 pb-2 px-3 py-2 md:p-6 md:pb-3">
               <CardTitle className="text-base md:text-lg text-green-800 dark:text-green-300">Payment Options</CardTitle>
               <CardDescription>Select your preferred payment method</CardDescription>
             </CardHeader>
-            <CardContent className="pt-4">
-              <RadioGroup value={selectedPaymentMethod} onValueChange={setSelectedPaymentMethod} className="space-y-3">
+            <CardContent className="pt-3 px-3 pb-3 md:p-6 md:pt-4">
+              <RadioGroup
+                value={selectedPaymentMethod}
+                onValueChange={setSelectedPaymentMethod}
+                className="space-y-2 md:space-y-3"
+              >
                 <div
-                  className={`flex items-start space-x-3 border rounded-lg p-4 transition-colors ${selectedPaymentMethod === "card" ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800" : "hover:bg-muted/50"}`}
+                  className={`flex items-start space-x-2 md:space-x-3 border rounded-lg p-2 md:p-4 transition-colors ${selectedPaymentMethod === "card" ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800" : "hover:bg-muted/50"}`}
                 >
                   <RadioGroupItem value="card" id="card" className="mt-1" />
                   <div className="flex-1">
@@ -191,7 +195,7 @@ export default function PaymentPage() {
                 </div>
 
                 <div
-                  className={`flex items-start space-x-3 border rounded-lg p-4 transition-colors ${selectedPaymentMethod === "upi" ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800" : "hover:bg-muted/50"}`}
+                  className={`flex items-start space-x-2 md:space-x-3 border rounded-lg p-2 md:p-4 transition-colors ${selectedPaymentMethod === "upi" ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800" : "hover:bg-muted/50"}`}
                 >
                   <RadioGroupItem value="upi" id="upi" className="mt-1" />
                   <div className="flex-1">
@@ -206,7 +210,7 @@ export default function PaymentPage() {
                 </div>
 
                 <div
-                  className={`flex items-start space-x-3 border rounded-lg p-4 transition-colors ${selectedPaymentMethod === "netbanking" ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800" : "hover:bg-muted/50"}`}
+                  className={`flex items-start space-x-2 md:space-x-3 border rounded-lg p-2 md:p-4 transition-colors ${selectedPaymentMethod === "netbanking" ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800" : "hover:bg-muted/50"}`}
                 >
                   <RadioGroupItem value="netbanking" id="netbanking" className="mt-1" />
                   <div className="flex-1">
@@ -219,7 +223,7 @@ export default function PaymentPage() {
                 </div>
 
                 <div
-                  className={`flex items-start space-x-3 border rounded-lg p-4 transition-colors ${selectedPaymentMethod === "cod" ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800" : "hover:bg-muted/50"}`}
+                  className={`flex items-start space-x-2 md:space-x-3 border rounded-lg p-2 md:p-4 transition-colors ${selectedPaymentMethod === "cod" ? "bg-green-50 dark:bg-green-900/20 border-green-200 dark:border-green-800" : "hover:bg-muted/50"}`}
                 >
                   <RadioGroupItem value="cod" id="cod" className="mt-1" />
                   <div className="flex-1">
@@ -273,7 +277,7 @@ export default function PaymentPage() {
         </div>
 
         <div>
-          <div className="rounded-lg border border-green-100 dark:border-green-900 p-4 md:p-5 sticky top-20 shadow-sm">
+          <div className="rounded-lg border border-green-100 dark:border-green-900 p-3 md:p-5 sticky top-20 shadow-sm">
             <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-300">Order Summary</h3>
 
             <div className="space-y-3">
@@ -332,7 +336,7 @@ export default function PaymentPage() {
       </div>
 
       {/* Mobile sticky checkout bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-green-100 dark:border-green-900 p-4 md:hidden z-40 shadow-lg">
+      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-green-100 dark:border-green-900 p-3 md:hidden z-40 shadow-lg">
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm font-medium">Total:</span>
           <span className="text-lg font-bold text-green-700 dark:text-green-400">{formattedTotal}</span>
@@ -354,7 +358,7 @@ export default function PaymentPage() {
       </div>
 
       {/* Add padding at the bottom to account for the sticky bar */}
-      <div className="h-24 md:h-0"></div>
+      <div className="h-20 md:h-0"></div>
     </div>
   )
 }

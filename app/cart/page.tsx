@@ -59,7 +59,7 @@ export default function CartPage() {
   }
 
   return (
-    <div className="container max-w-5xl py-4 md:py-8">
+    <div className="container px-3 sm:px-4 py-4 md:py-8 max-w-5xl mx-auto">
       <div className="flex items-center mb-4">
         <Link href="/" className="mr-3">
           <Button variant="ghost" size="icon" className="rounded-full h-9 w-9">
@@ -83,7 +83,7 @@ export default function CartPage() {
           </Link>
         </div>
       ) : (
-        <div className="grid md:grid-cols-3 gap-4 md:gap-8">
+        <div className="grid md:grid-cols-3 gap-3 md:gap-8">
           <div className="md:col-span-2">
             <div className="rounded-lg border border-green-100 dark:border-green-900 overflow-hidden shadow-sm">
               <div className="bg-green-50 dark:bg-green-900/30 px-4 py-3 md:px-6 md:py-4">
@@ -112,7 +112,7 @@ export default function CartPage() {
                   return (
                     <div
                       key={item.id}
-                      className="p-4 md:p-6 hover:bg-green-50/50 dark:hover:bg-green-900/10 transition-colors"
+                      className="p-3 md:p-6 hover:bg-green-50/50 dark:hover:bg-green-900/10 transition-colors"
                     >
                       <div className="grid grid-cols-12 gap-2 md:gap-4 items-center">
                         <div className="col-span-6">
@@ -207,7 +207,7 @@ export default function CartPage() {
           </div>
 
           <div>
-            <div className="rounded-lg border border-green-100 dark:border-green-900 p-4 md:p-5 sticky top-20 shadow-sm">
+            <div className="rounded-lg border border-green-100 dark:border-green-900 p-3 md:p-5 sticky top-20 shadow-sm">
               <h3 className="text-lg font-semibold mb-4 text-green-800 dark:text-green-300">Order Summary</h3>
 
               <div className="space-y-3">
@@ -278,7 +278,7 @@ export default function CartPage() {
       )}
       {/* Mobile sticky checkout bar */}
       {items.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-green-100 dark:border-green-900 p-4 md:hidden z-40 shadow-lg">
+        <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-green-100 dark:border-green-900 p-3 md:hidden z-40 shadow-lg">
           <div className="flex justify-between items-center mb-2">
             <span className="text-sm font-medium">Total:</span>
             <span className="text-lg font-bold text-green-700 dark:text-green-400">{formattedTotal}</span>
@@ -291,7 +291,7 @@ export default function CartPage() {
       )}
 
       {/* Add padding at the bottom to account for the sticky bar */}
-      {items.length > 0 && <div className="h-24 md:h-0"></div>}
+      {items.length > 0 && <div className="h-20 md:h-0"></div>}
     </div>
   )
 }

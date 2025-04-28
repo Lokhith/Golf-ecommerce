@@ -85,7 +85,7 @@ export default function OrderSuccessPage() {
   })
 
   return (
-    <div className="container max-w-4xl py-6 md:py-12">
+    <div className="container px-3 sm:px-4 py-6 md:py-12 max-w-4xl mx-auto">
       <div className="text-center mb-8">
         <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-100 dark:bg-green-900 mb-4">
           <CheckCircle className="h-8 w-8 text-green-700 dark:text-green-400" />
@@ -96,7 +96,7 @@ export default function OrderSuccessPage() {
 
       <div className="grid gap-6">
         <Card className="border-green-100 dark:border-green-900 shadow-sm overflow-hidden">
-          <div className="bg-green-50 dark:bg-green-900/30 p-4 md:p-6 border-b border-green-100 dark:border-green-800">
+          <div className="bg-green-50 dark:bg-green-900/30 p-3 md:p-6 border-b border-green-100 dark:border-green-800">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
                 <h2 className="text-lg font-semibold text-green-800 dark:text-green-300">Order #{order.id}</h2>
@@ -112,15 +112,15 @@ export default function OrderSuccessPage() {
             </div>
           </div>
 
-          <CardContent className="p-4 md:p-6">
-            <div className="space-y-4">
+          <CardContent className="p-3 md:p-6">
+            <div className="space-y-3 md:space-y-4">
               <div>
                 <h3 className="font-medium mb-3">Order Items</h3>
                 <div className="space-y-3">
                   {order.items.map((item) => (
                     <div
                       key={`${item.id}-${item.size || ""}`}
-                      className="flex items-center gap-3 pb-3 border-b border-gray-100 dark:border-gray-800"
+                      className="flex items-center gap-2 md:gap-3 pb-3 border-b border-gray-100 dark:border-gray-800"
                     >
                       <div className="w-12 h-12 bg-gray-100 dark:bg-gray-800 rounded-md flex-shrink-0 relative overflow-hidden">
                         {item.image && (
@@ -215,9 +215,9 @@ export default function OrderSuccessPage() {
         </div>
       </div>
 
-      <div className="mt-12 bg-muted/30 rounded-lg p-6">
+      <div className="mt-8 md:mt-12 bg-muted/30 rounded-lg p-3 md:p-6">
         <h3 className="text-lg font-semibold mb-4">Recommended For You</h3>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
           {[1, 2, 3, 4].map((i) => (
             <Link href="/category/clubs" key={i} className="group">
               <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-sm transition-all group-hover:shadow-md">

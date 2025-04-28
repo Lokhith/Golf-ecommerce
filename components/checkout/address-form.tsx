@@ -175,10 +175,10 @@ export default function AddressForm({ onSubmit, onCancel }: AddressFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
         <div className="space-y-2">
-          <Label htmlFor="name">
+          <Label htmlFor="name" className="text-sm font-medium">
             Full Name <span className="text-red-500">*</span>
           </Label>
           <Input
@@ -186,13 +186,14 @@ export default function AddressForm({ onSubmit, onCancel }: AddressFormProps) {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className={errors.name ? "border-red-500" : ""}
+            className={`${errors.name ? "border-red-500 focus-visible:ring-red-300" : "focus-visible:ring-green-300"} transition-all`}
+            placeholder="Enter your full name"
           />
           {errors.name && <p className="text-xs text-red-500">{errors.name}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="mobile">
+          <Label htmlFor="mobile" className="text-sm font-medium">
             Mobile Number <span className="text-red-500">*</span>
           </Label>
           <Input
@@ -201,15 +202,15 @@ export default function AddressForm({ onSubmit, onCancel }: AddressFormProps) {
             value={formData.mobile}
             onChange={handleChange}
             placeholder="10-digit mobile number"
-            className={errors.mobile ? "border-red-500" : ""}
+            className={`${errors.mobile ? "border-red-500 focus-visible:ring-red-300" : "focus-visible:ring-green-300"} transition-all`}
           />
           {errors.mobile && <p className="text-xs text-red-500">{errors.mobile}</p>}
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
         <div className="space-y-2">
-          <Label htmlFor="pincode">
+          <Label htmlFor="pincode" className="text-sm font-medium">
             Pincode <span className="text-red-500">*</span>
           </Label>
           <Input
@@ -218,13 +219,13 @@ export default function AddressForm({ onSubmit, onCancel }: AddressFormProps) {
             value={formData.pincode}
             onChange={handleChange}
             placeholder="6-digit pincode"
-            className={errors.pincode ? "border-red-500" : ""}
+            className={`${errors.pincode ? "border-red-500 focus-visible:ring-red-300" : "focus-visible:ring-green-300"} transition-all`}
           />
           {errors.pincode && <p className="text-xs text-red-500">{errors.pincode}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="locality">
+          <Label htmlFor="locality" className="text-sm font-medium">
             Locality <span className="text-red-500">*</span>
           </Label>
           <Input
@@ -233,14 +234,14 @@ export default function AddressForm({ onSubmit, onCancel }: AddressFormProps) {
             value={formData.locality}
             onChange={handleChange}
             placeholder="Colony, Street, Locality"
-            className={errors.locality ? "border-red-500" : ""}
+            className={`${errors.locality ? "border-red-500 focus-visible:ring-red-300" : "focus-visible:ring-green-300"} transition-all`}
           />
           {errors.locality && <p className="text-xs text-red-500">{errors.locality}</p>}
         </div>
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="address">
+        <Label htmlFor="address" className="text-sm font-medium">
           Address (Area and Street) <span className="text-red-500">*</span>
         </Label>
         <Input
@@ -248,14 +249,15 @@ export default function AddressForm({ onSubmit, onCancel }: AddressFormProps) {
           name="address"
           value={formData.address}
           onChange={handleChange}
-          className={errors.address ? "border-red-500" : ""}
+          className={`${errors.address ? "border-red-500 focus-visible:ring-red-300" : "focus-visible:ring-green-300"} transition-all`}
+          placeholder="House no., Building name, Street name"
         />
         {errors.address && <p className="text-xs text-red-500">{errors.address}</p>}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
         <div className="space-y-2">
-          <Label htmlFor="city">
+          <Label htmlFor="city" className="text-sm font-medium">
             City/District/Town <span className="text-red-500">*</span>
           </Label>
           <Input
@@ -263,20 +265,24 @@ export default function AddressForm({ onSubmit, onCancel }: AddressFormProps) {
             name="city"
             value={formData.city}
             onChange={handleChange}
-            className={errors.city ? "border-red-500" : ""}
+            className={`${errors.city ? "border-red-500 focus-visible:ring-red-300" : "focus-visible:ring-green-300"} transition-all`}
+            placeholder="Enter your city"
           />
           {errors.city && <p className="text-xs text-red-500">{errors.city}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="state">
+          <Label htmlFor="state" className="text-sm font-medium">
             State <span className="text-red-500">*</span>
           </Label>
           <Select value={formData.state} onValueChange={handleStateChange}>
-            <SelectTrigger id="state" className={errors.state ? "border-red-500" : ""}>
+            <SelectTrigger
+              id="state"
+              className={`${errors.state ? "border-red-500 focus-visible:ring-red-300" : "focus-visible:ring-green-300"} transition-all`}
+            >
               <SelectValue placeholder="Select state" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="max-h-[200px]">
               {INDIAN_STATES.map((state) => (
                 <SelectItem key={state} value={state}>
                   {state}
@@ -288,52 +294,57 @@ export default function AddressForm({ onSubmit, onCancel }: AddressFormProps) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
         <div className="space-y-2">
-          <Label htmlFor="landmark">Landmark (Optional)</Label>
+          <Label htmlFor="landmark" className="text-sm font-medium">
+            Landmark (Optional)
+          </Label>
           <Input
             id="landmark"
             name="landmark"
             value={formData.landmark}
             onChange={handleChange}
             placeholder="Nearby landmark"
+            className="focus-visible:ring-green-300 transition-all"
           />
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="alternatePhone">Alternate Mobile (Optional)</Label>
+          <Label htmlFor="alternatePhone" className="text-sm font-medium">
+            Alternate Mobile (Optional)
+          </Label>
           <Input
             id="alternatePhone"
             name="alternatePhone"
             value={formData.alternatePhone}
             onChange={handleChange}
             placeholder="10-digit mobile number"
-            className={errors.alternatePhone ? "border-red-500" : ""}
+            className={`${errors.alternatePhone ? "border-red-500 focus-visible:ring-red-300" : "focus-visible:ring-green-300"} transition-all`}
           />
           {errors.alternatePhone && <p className="text-xs text-red-500">{errors.alternatePhone}</p>}
         </div>
       </div>
 
-      <div className="space-y-2">
-        <Label>
+      <div className="space-y-2 bg-muted/30 p-3 md:p-4 rounded-lg">
+        <Label className="text-sm font-medium">
           Address Type <span className="text-red-500">*</span>
         </Label>
         <RadioGroup
           value={formData.addressType}
           onValueChange={handleAddressTypeChange as (value: string) => void}
-          className="flex gap-4"
+          className="flex flex-col sm:flex-row gap-2 md:gap-3 mt-2"
         >
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 border rounded-md p-2 md:p-3 bg-white dark:bg-gray-800 cursor-pointer hover:border-green-300 dark:hover:border-green-700 transition-colors">
             <RadioGroupItem value="home" id="home" />
             <Label htmlFor="home" className="flex items-center cursor-pointer">
-              <Home className="h-4 w-4 mr-1" />
+              <Home className="h-4 w-4 mr-2 text-green-600 dark:text-green-400" />
               Home (All day delivery)
             </Label>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 border rounded-md p-2 md:p-3 bg-white dark:bg-gray-800 cursor-pointer hover:border-green-300 dark:hover:border-green-700 transition-colors">
             <RadioGroupItem value="work" id="work" />
             <Label htmlFor="work" className="flex items-center cursor-pointer">
-              <Briefcase className="h-4 w-4 mr-1" />
+              <Briefcase className="h-4 w-4 mr-2 text-green-600 dark:text-green-400" />
               Work (Delivery between 10AM - 6PM)
             </Label>
           </div>
@@ -341,10 +352,18 @@ export default function AddressForm({ onSubmit, onCancel }: AddressFormProps) {
       </div>
 
       <div className="flex justify-end gap-4 pt-4">
-        <Button type="button" variant="outline" onClick={onCancel}>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onCancel}
+          className="border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-green-900/20"
+        >
           Cancel
         </Button>
-        <Button type="submit" className="bg-green-700 hover:bg-green-800">
+        <Button
+          type="submit"
+          className="bg-green-700 hover:bg-green-800 text-white shadow-sm hover:shadow-md transition-all"
+        >
           Save and Deliver Here
         </Button>
       </div>
